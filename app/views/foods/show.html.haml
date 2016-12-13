@@ -1,0 +1,14 @@
+%dl
+  %dt= @food['name']
+
+  %div='Vitamins'
+  %div
+
+
+    #content
+      .left.column
+        %h2 Welcome to our site!
+        %p='print_information'
+
+        %table
+          =@food['nutrients'].select {|hash|hash['group'] == 'Vitamins'}
