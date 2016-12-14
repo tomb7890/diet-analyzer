@@ -1,14 +1,8 @@
+%h4=@food['name']
+-# %h9{:style=>"font-size: xx-small;"}=@food
+
 %dl
-  %dt= @food['name']
-
-  %div='Vitamins'
-  %div
-
-
-    #content
-      .left.column
-        %h2 Welcome to our site!
-        %p='print_information'
-
-        %table
-          =@food['nutrients'].select {|hash|hash['group'] == 'Vitamins'}
+  %div{:class => "panel panel-default", :style=> 'border-width: 1px; border-color: black;'}
+    %div{:class => "panel-heading"}='Nutrition Information'
+    %div{:class => "panel-body"}
+      = render :partial => "tables"
