@@ -15,6 +15,10 @@ class Food
     end
   end
 
+  def self.subset(f, x)
+    f['nutrients'].select {|hash|hash['group'] == x }
+  end
+
   def self.all
     options = {
       'api_key' => api_key,
