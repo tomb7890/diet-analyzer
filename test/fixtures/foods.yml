@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+soymilk:
+  amount: 1
+  measure: 1
+  ndbno: 16235
+
+raisinbran:
+  amount: 1
+  measure: 1
+  ndbno: 8061
+
+blueberries:
+  amount: 1
+  measure: cup
+  ndbno: 9050
+
+fireweed:
+  amount: 100
+  measure: 1
+  ndbno: 35038
