@@ -2,4 +2,4 @@
 
 %ul
   - @foods.each  do |f|
-    %li= link_to f['name'], food_path(Food.id_or_ndbno(f))
+    %li= link_to f['name'], food_path(Usda.id_or_ndbno(f))

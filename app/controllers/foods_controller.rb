@@ -2,13 +2,13 @@ class FoodsController < ApplicationController
 
   def index
     if params[:search]
-      @foods = Food.search(params[:search])
+      @foods = Usda.search(params[:search])
     else
-      @foods = Food.all
+      @foods = Usda.all
     end
   end
 
   def show
-    @food = Food.find(params[:id])
+    @food = Usda.find(params[:id])
   end
 end
