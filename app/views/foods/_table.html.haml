@@ -1,7 +1,7 @@
 %table{:class => "table table-condensed" }
   %tbody
     %th=category
-    - Usda.subset(@food, category).each do |n|
+    - @food.nutrients_by_category(category).each do |n|
       %tr
         %td= "#{n['name']} "
         %td= "#{n['value']} #{n['unit']}"

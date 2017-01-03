@@ -4,6 +4,15 @@ class Food < ActiveRecord::Base
     nutrient('Energy')
   end
 
+  def nutrients_by_category(x)
+    results = nil
+    response = caching_find(ndbno)
+    if not response.nil?
+      nutrients = response['nutrients']
+      results = nutrients.select {|hash|hash['group'] == x }
+    end
+  end
+
   def nutrient(arg)
     value  = nil
     response = caching_find(ndbno)
