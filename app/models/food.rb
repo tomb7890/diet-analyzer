@@ -5,7 +5,7 @@ class Food < ActiveRecord::Base
   end
 
   def nutrient(arg)
-    response = Usda.find(ndbno)
+    response = caching_find(ndbno)
     allnutrients = response['nutrients']
     energy = allnutrients.select { |n| n['name'] == arg }[0]
     allmeasures = energy['measures']
@@ -14,7 +14,13 @@ class Food < ActiveRecord::Base
   end
 
   def name
-    response = Usda.find(ndbno)
+    response = caching_find(ndbno)
     name = response['name']
+  end
+
+  def caching_find(ndbno)
+    Rails.cache.fetch(ndbno, expires_in: 28.days) do
+      response = Usda.find(ndbno)
+    end
   end
 end
