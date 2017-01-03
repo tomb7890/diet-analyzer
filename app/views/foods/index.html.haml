@@ -1,0 +1,18 @@
+%h3 USDA Party: Foods ( #{@foods.length})
+%li= link_to "New Food" , "/foods/new"
+
+%table{:class => "table table-condensed" }
+  %thead
+    %tr
+      %th  Food
+      %th  Amount
+      %th  Measure
+      %th  Calories
+  %tbody
+    - @foods.each do |f|
+      %tr
+        %td
+          %li= link_to f.name, food_path(f)
+        %td= "#{f.amount}"
+        %td= "#{f.measure}"
+        %td= "#{f.calories}"
