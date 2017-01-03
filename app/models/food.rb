@@ -5,17 +5,30 @@ class Food < ActiveRecord::Base
   end
 
   def nutrient(arg)
+    value  = nil
     response = caching_find(ndbno)
-    allnutrients = response['nutrients']
-    energy = allnutrients.select { |n| n['name'] == arg }[0]
-    allmeasures = energy['measures']
-    hash = allmeasures.select { |m| m['label'] == measure }[0]
-    value = hash['value'].to_f
+    if not response.nil?
+      allnutrients = response['nutrients']
+      energy = allnutrients.select { |n| n['name'] == arg }[0]
+      allmeasures = energy['measures']
+
+      if measure.size > 0
+        hash = allmeasures.select { |m| m['label'] == measure }[0]
+      else
+        hash = allmeasures.first
+      end
+      value = hash['value'].to_f
+    end
+    value
   end
 
   def name
+    name = nil
     response = caching_find(ndbno)
-    name = response['name']
+    if not response.nil?
+      name = response['name']
+    end
+    name
   end
 
   def caching_find(ndbno)

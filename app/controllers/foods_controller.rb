@@ -4,7 +4,8 @@ class FoodsController < ApplicationController
     if params[:search]
       @foods = Usda.search(params[:search])
     else
-      @foods = Usda.all
+      # @foods = Usda.all
+      @foods = Food.all
     end
   end
 
