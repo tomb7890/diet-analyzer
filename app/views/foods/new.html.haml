@@ -3,6 +3,7 @@
   = submit_tag "Submit"
 
   - if not @items.nil?
-    %select
-      - @items.each do |f|
-        %option= "#{f['name']}"
+    = select_tag(:food_type_id, options_for_select(@items))
+
+  - if not @measures.nil?
+    = select_tag(:food_measure_id, options_for_select(@items))
