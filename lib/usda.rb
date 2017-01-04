@@ -35,7 +35,7 @@ class Usda
   end
 
   def self.find(food_id)
-    rc = nil
+    food = nil
     food_id_rjust = food_id.to_s.rjust(5, '0')
     options = {
       'ndbno' => food_id_rjust,
@@ -46,24 +46,34 @@ class Usda
 
 
     response = get('/ndb/reports/',
-                   :query => options)
+                   query: options)
 
-    if not response.nil?
+    unless response.nil?
       report = response['report']
-      if not report.nil?
-        rc = report['food']
+      unless report.nil?
+        food = report['food']
       end
     end
-    rc
+    food
   end
 
   def self.search(string)
+    item = nil
+
     options = {
       'format' => 'json',
       'q' => string,
       'api_key' => api_key
     }
-    get('/ndb/search/',
-        :query => options)['list']['item']
+    response = get('/ndb/search/',
+                   query: options)
+
+    unless response.nil?
+      list = response['list']
+      unless list.nil?
+        item = list['item']
+      end
+    end
+    item
   end
 end
