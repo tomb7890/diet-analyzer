@@ -1,5 +1,5 @@
 = form_tag new_food_path, :method => :get do
-  = text_field_tag "search", ""
+  = text_field_tag "search", params[:search]
   = submit_tag "Submit"
 
   - if not @items.nil?
