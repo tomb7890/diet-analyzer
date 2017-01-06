@@ -9,7 +9,7 @@ class FoodsController < ApplicationController
   def new
     if params[:search]
       @items = caching_search(params[:search])
-      @items = list_for_select_options (@items)
+      @items = list_for_select_options(@items)
     end
   end
 
