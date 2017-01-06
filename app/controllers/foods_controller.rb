@@ -17,6 +17,14 @@ class FoodsController < ApplicationController
     @food = Food.find(params[:id])
   end
 
+  def update_measures
+    ndbno = params[:ndbno]
+    @measures = Usda.measures_for_food(ndbno)
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def caching_search(term)
     Rails.cache.fetch(term, expires_in: 28.days) do
       response = Usda.search(term)

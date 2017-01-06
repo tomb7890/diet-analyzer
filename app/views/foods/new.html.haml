@@ -5,5 +5,4 @@
   - if not @items.nil?
     = select_tag(:food_type_id, options_for_select(@items))
 
-  - if not @measures.nil?
-    = select_tag(:food_measure_id, options_for_select(@items))
+    = select_tag(:food_measure_id)

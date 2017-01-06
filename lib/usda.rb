@@ -9,6 +9,11 @@ class Usda
     UsdaParty.config.api_key
   end
 
+  def self.measures_for_food(ndbno)
+    response = self.find(ndbno)
+    response['nutrients'].first['measures'].map{|x| x['label']}
+  end
+
   def self.id_or_ndbno(hash)
     if hash.key?('ndbno')
       hash['ndbno']
@@ -43,7 +48,6 @@ class Usda
       'format' => 'json',
       'api_key' => api_key
     }
-
 
     response = get('/ndb/reports/',
                    query: options)

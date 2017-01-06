@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  get 'foods/update_measures', as: 'update_measures'
   root to: 'foods#index'
   resources :foods
 
