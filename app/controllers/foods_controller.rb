@@ -19,8 +19,8 @@ class FoodsController < ApplicationController
 
   def update_measures
     ndbno = params[:ndbno]
-    @measures = Usda.measures_for_food(ndbno)
-    @nutrients = Usda.nutrients_for_new_food_panel(ndbno)
+    @measures = measures_for_food(ndbno)
+    @nutrients = nutrients_for_new_food_panel(ndbno)
     respond_to do |format|
       format.js
     end
@@ -29,7 +29,7 @@ class FoodsController < ApplicationController
   def update_nutrients
     ndbno = params[:ndbno]
     measure = params[:measure]
-    @nutrients = Usda.nutrients_for_new_food_panel(ndbno, measure)
+    @nutrients = nutrients_for_new_food_panel(ndbno, measure)
     respond_to do |format|
       format.js
     end
