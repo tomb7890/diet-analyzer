@@ -10,7 +10,7 @@ class Usda
   end
 
   def self.measures_for_food(ndbno)
-    response = self.find(ndbno)
+    response = self.caching_find(ndbno)
     response['nutrients'].first['measures'].map{|x| x['label']}
   end
 
