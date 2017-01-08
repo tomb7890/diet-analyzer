@@ -68,12 +68,16 @@ class Usda
   end
 
   def self.nutrient(arg, ndbno)
-    value  = nil
+    value  = "N/A"
     response = self.caching_find(ndbno)
     if not response.nil?
       allnutrients = response['nutrients']
       nutrient = allnutrients.select { |n| n['name'] == arg }[0]
-      value = nutrient['value'].to_f
+
+      unless nutrient.nil?
+        value = nutrient['value'].to_f
+      end
+
     end
     value
   end
