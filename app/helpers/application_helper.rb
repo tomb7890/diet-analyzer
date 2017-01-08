@@ -6,7 +6,13 @@ module ApplicationHelper
     array.insert(0, "g")
   end
 
-    def nutrient_per_measure(arg, ndbno, measure)
+  def caching_search(term)
+    Rails.cache.fetch(term, expires_in: 28.days) do
+      response = Usda.search(term)
+    end
+  end
+
+  def nutrient_per_measure(arg, ndbno, measure)
     value  = "N/A"
     response = Usda.caching_find(ndbno)
     if not response.nil?

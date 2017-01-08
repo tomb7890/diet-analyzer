@@ -35,10 +35,4 @@ class FoodsController < ApplicationController
     end
   end
 
-  def caching_search(term)
-    Rails.cache.fetch(term, expires_in: 28.days) do
-      response = Usda.search(term)
-    end
-  end
-
 end
