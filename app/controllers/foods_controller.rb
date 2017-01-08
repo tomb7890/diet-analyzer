@@ -26,6 +26,15 @@ class FoodsController < ApplicationController
     end
   end
 
+  def update_nutrients
+    ndbno = params[:ndbno]
+    measure = params[:measure]
+    @nutrients = Usda.nutrients_for_new_food_panel(ndbno, measure)
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def caching_search(term)
     Rails.cache.fetch(term, expires_in: 28.days) do
       response = Usda.search(term)

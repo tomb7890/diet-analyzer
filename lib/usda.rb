@@ -11,7 +11,8 @@ class Usda
 
   def self.measures_for_food(ndbno)
     response = self.caching_find(ndbno)
-    response['nutrients'].first['measures'].map{|x| x['label']}
+    array = response['nutrients'].first['measures'].map{|x| x['label']}
+    array.insert(0, "g")
   end
 
   def self.id_or_ndbno(hash)
@@ -67,31 +68,40 @@ class Usda
     end
   end
 
-  def self.nutrient(arg, ndbno)
+  def self.nutrient_per_measure(arg, ndbno, measure)
     value  = "N/A"
     response = self.caching_find(ndbno)
     if not response.nil?
       allnutrients = response['nutrients']
       nutrient = allnutrients.select { |n| n['name'] == arg }[0]
-
       unless nutrient.nil?
-        value = nutrient['value'].to_f
+        if measure == "g"
+          value = nutrient['value'].to_f
+          value /= 100.0
+        else
+          allmeasures = nutrient['measures']
+          if measure.size > 0
+            hash = allmeasures.select { |m| m['label'] == measure }[0]
+          else
+            hash = allmeasures.first
+          end
+          value = hash['value'].to_f
+        end
       end
-
     end
     value
   end
 
-  def self.nutrients_for_new_food_panel(ndbno)
+  def self.nutrients_for_new_food_panel(ndbno, measure = "g")
     hash = {}
 
-    hash['Energy'] = nutrient('Energy', ndbno)
-    hash['Water'] = nutrient('Water', ndbno)
-    hash['Carbs'] = nutrient('Carbohydrate, by difference', ndbno)
+    hash['Energy'] = nutrient_per_measure('Energy', ndbno, measure)
+    hash['Water'] = nutrient_per_measure('Water', ndbno, measure)
+    hash['Carbs'] = nutrient_per_measure('Carbohydrate, by difference', ndbno, measure)
 
-    hash['Fiber'] = nutrient("Fiber, total dietary", ndbno)
-    hash['Protein'] = nutrient('Protein', ndbno)
-    hash['Fat'] =   nutrient('Total lipid (fat)', ndbno)
+    hash['Fiber'] = nutrient_per_measure("Fiber, total dietary", ndbno, measure)
+    hash['Protein'] = nutrient_per_measure('Protein', ndbno, measure)
+    hash['Fat'] =   nutrient_per_measure('Total lipid (fat)', ndbno, measure)
     hash
   end
 
