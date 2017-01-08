@@ -61,6 +61,36 @@ class Usda
     food
   end
 
+  def self.caching_find(ndbno)
+    Rails.cache.fetch(ndbno, expires_in: 28.days) do
+      response = Usda.find(ndbno)
+    end
+  end
+
+  def self.nutrient(arg, ndbno)
+    value  = nil
+    response = self.caching_find(ndbno)
+    if not response.nil?
+      allnutrients = response['nutrients']
+      nutrient = allnutrients.select { |n| n['name'] == arg }[0]
+      value = nutrient['value'].to_f
+    end
+    value
+  end
+
+  def self.nutrients_for_new_food_panel(ndbno)
+    hash = {}
+
+    hash['Energy'] = nutrient('Energy', ndbno)
+    hash['Water'] = nutrient('Water', ndbno)
+    hash['Carbs'] = nutrient('Carbohydrate, by difference', ndbno)
+
+    hash['Fiber'] = nutrient("Fiber, total dietary", ndbno)
+    hash['Protein'] = nutrient('Protein', ndbno)
+    hash['Fat'] =   nutrient('Total lipid (fat)', ndbno)
+    hash
+  end
+
   def self.search(string)
     item = nil
 
