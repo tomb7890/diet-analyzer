@@ -9,6 +9,8 @@ $ ->
         $("#Protein"). val("")
         $("#Fat").     val("")
 
+        $("#quantity"). val("1.0")
+
 
         $.ajax 'update_measures',
               type: 'GET'

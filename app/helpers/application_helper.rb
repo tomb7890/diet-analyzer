@@ -12,14 +12,15 @@ module ApplicationHelper
     end
   end
 
-  def nutrient_per_measure(arg, ndbno, measure)
-    value  = "N/A"
+  def nutrient_per_measure(arg, ndbno, measure, q)
+    quantity = q.to_f
+    value = 'N/A'
     response = Usda.caching_find(ndbno)
-    if not response.nil?
+    unless response.nil?
       allnutrients = response['nutrients']
       nutrient = allnutrients.select { |n| n['name'] == arg }[0]
       unless nutrient.nil?
-        if measure == "g"
+        if measure == 'g'
           value = nutrient['value'].to_f
           value /= 100.0
         else
@@ -33,19 +34,21 @@ module ApplicationHelper
         end
       end
     end
-    value
+    value *= quantity if value != 'N/A'
   end
 
-  def nutrients_for_new_food_panel(ndbno, measure = "g")
+  def nutrients_for_new_food_panel(ndbno, quantity, measure = "g")
     hash = {}
 
-    hash['Energy'] = nutrient_per_measure('Energy', ndbno, measure)
-    hash['Water'] = nutrient_per_measure('Water', ndbno, measure)
-    hash['Carbs'] = nutrient_per_measure('Carbohydrate, by difference', ndbno, measure)
-
-    hash['Fiber'] = nutrient_per_measure("Fiber, total dietary", ndbno, measure)
-    hash['Protein'] = nutrient_per_measure('Protein', ndbno, measure)
-    hash['Fat'] =   nutrient_per_measure('Total lipid (fat)', ndbno, measure)
+    hash['Energy'] = nutrient_per_measure('Energy', ndbno, measure, quantity)
+    hash['Water'] = nutrient_per_measure('Water', ndbno, measure, quantity)
+    hash['Carbs'] = nutrient_per_measure('Carbohydrate, by difference', ndbno,
+                                         measure, quantity)
+    hash['Fiber'] = nutrient_per_measure('Fiber, total dietary', ndbno,
+                                         measure, quantity)
+    hash['Protein'] = nutrient_per_measure('Protein', ndbno, measure, quantity)
+    hash['Fat'] =   nutrient_per_measure('Total lipid (fat)', ndbno, measure,
+                                         quantity)
     hash
   end
 
