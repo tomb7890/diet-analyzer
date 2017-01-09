@@ -35,6 +35,7 @@ module ApplicationHelper
       end
     end
     value *= quantity if value != 'N/A'
+    value
   end
 
   def nutrients_for_new_food_panel(ndbno, quantity, measure = "g")
