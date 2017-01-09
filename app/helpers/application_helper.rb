@@ -3,7 +3,8 @@ module ApplicationHelper
   def measures_for_food(ndbno)
     response = Usda.caching_find(ndbno)
     array = response['nutrients'].first['measures'].map{|x| x['label']}
-    array.insert(0, "g")
+    array.insert(0, 'g') unless array.include?('g')
+    array
   end
 
   def caching_search(term)
