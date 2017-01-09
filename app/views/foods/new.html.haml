@@ -17,12 +17,5 @@
 
 -# row 4 quantity select; measure drown-down, and add button
 %div{:class =>'row'}
-  %div{:class =>'col-sm-4'}
-    %form{:class => "form-inline"}
-      %div{:class =>'form-group'}
-        %label{:for => 'quantity'}='Quantity'
-        = text_field_tag 'quantity', "1", class: "form-control"
-      %div{:class => 'form-group'}
-        = select_tag(:food_measure_id, class: "form-control")
-      %div{:class => 'form-group'}
-        %button{type: "submit", class: "btn btn-default" }='Add'
+  %div{:class =>'col-sm-12'}
+    = render :partial => 'food_form'

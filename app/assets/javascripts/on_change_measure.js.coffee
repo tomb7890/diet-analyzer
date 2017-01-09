@@ -1,7 +1,7 @@
 # Dynamically update the nutrient values upon change in food measure
 
 $ ->
-  $(document).on 'change', '#food_measure_id', (evt) ->
+  $(document).on 'change', '#food_measure', (evt) ->
         $("#Energy").  val("")
         $("#Water").   val("")
         $("#Carbs").   val("")
@@ -15,7 +15,7 @@ $ ->
               dataType: 'script'
               data: {
                       ndbno: $("#food_type_id option:selected").val()
-                      measure: $("#food_measure_id").val()
+                      measure: $("#food_measure").val()
               }
               error: (jqXHR, textStatus, errorThrown) ->
                       console.log("AJAX Error: #{textStatus}")

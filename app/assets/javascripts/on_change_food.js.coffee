@@ -9,7 +9,8 @@ $ ->
         $("#Protein"). val("")
         $("#Fat").     val("")
 
-        $("#quantity"). val("1.0")
+        $("#food_amount"). val("1.0")
+        $("#food_ndbno"). val($("#food_type_id option:selected").val() )
 
 
         $.ajax 'update_measures',

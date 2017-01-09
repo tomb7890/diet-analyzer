@@ -7,6 +7,7 @@ class FoodsController < ApplicationController
   end
 
   def new
+    @food = Food.new
     if params[:search]
       @items = caching_search(params[:search])
       @items = list_for_select_options(@items)
@@ -15,6 +16,15 @@ class FoodsController < ApplicationController
 
   def show
     @food = Food.find(params[:id])
+  end
+
+  def create
+    @food = Food.new(product_params)
+    if @food.save
+      redirect_to foods_url
+    else
+      render :new
+    end
   end
 
   def update_measures

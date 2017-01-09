@@ -1,4 +1,4 @@
-$("#food_measure_id").empty()
+$("#food_measure").empty()
   .append("<%= escape_javascript(options_for_select(@measures)) %>")
 
 $("#Energy").  val("<%= escape_javascript(@nutrients['Energy'].  to_s) %>")
