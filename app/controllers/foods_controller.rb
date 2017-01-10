@@ -27,6 +27,12 @@ class FoodsController < ApplicationController
     end
   end
 
+  def edit
+    @food = Food.find(params[:id])
+    @measures = measures_for_food(@food.ndbno)
+    @nutrients = nutrients_for_new_food_panel(@food.ndbno, @food.amount, @food.measure )
+  end
+
   def update_measures
     ndbno = params[:ndbno]
     @measures = measures_for_food(ndbno)
