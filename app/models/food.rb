@@ -14,19 +14,23 @@ class Food < ActiveRecord::Base
   end
 
   def nutrient(arg)
-    value  = nil
+    value = nil
     response = caching_find(ndbno)
-    if not response.nil?
+    unless response.nil?
       allnutrients = response['nutrients']
       energy = allnutrients.select { |n| n['name'] == arg }[0]
       allmeasures = energy['measures']
 
+      hash = nil
       if measure.size > 0
         hash = allmeasures.select { |m| m['label'] == measure }[0]
       else
         hash = allmeasures.first
       end
-      value = hash['value'].to_f
+      unless hash.nil?
+        value = hash['value'].to_f
+      end
+
     end
     value
   end
