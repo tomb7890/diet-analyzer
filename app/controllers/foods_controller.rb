@@ -19,7 +19,7 @@ class FoodsController < ApplicationController
   end
 
   def create
-    @food = Food.new(product_params)
+    @food = Food.create(food_params)
     if @food.save
       redirect_to foods_url
     else
@@ -52,5 +52,12 @@ class FoodsController < ApplicationController
       format.js
     end
   end
+
+  private
+
+  def food_params
+    params.require(:food).permit(:ndbno, :amount, :measure)
+  end
+
 
 end
