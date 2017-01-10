@@ -1,2 +1,5 @@
-%p=nutrient
+- if display
+  %p=display
+- else
+  %p=nutrient
 = text_field_tag nutrient, "N/A", disabled: true, class: "form-control"
