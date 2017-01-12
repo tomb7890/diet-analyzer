@@ -1,25 +1,79 @@
 # Dynamically update the measures selection drop-down according to a food selection
-
 $ ->
-  $(document).on 'change', '#food_type_id', (evt) ->
-        $("#Energy").  val("")
-        $("#Water").   val("")
-        $("#Carbs").   val("")
-        $("#Fiber").   val("")
-        $("#Protein"). val("")
-        $("#Fat").     val("")
-
+    $(document).on 'change', '#food_type_id', (evt) ->
         $("#food_amount"). val("1.0")
         $("#food_ndbno"). val($("#food_type_id option:selected").val() )
 
+        reset_nutrients
 
         $.ajax 'update_measures',
-              type: 'GET'
-              dataType: 'script'
-              data: {
-                      ndbno: $("#food_type_id option:selected").val()
-              }
-              error: (jqXHR, textStatus, errorThrown) ->
-                      console.log("AJAX Error: #{textStatus}")
-              success: (data, textStatus, jqXHR) ->
-                      console.log("Dynamic select OK!")
+            type: 'GET'
+            dataType: 'json'
+            data: {
+                ndbno: $("#food_type_id option:selected").val()
+            }
+            error: (jqXHR, textStatus, errorThrown) ->
+                console.log("AJAX Error: #{textStatus}")
+            success: (data, textStatus, jqXHR) =>
+                callback_handler(data, textStatus, jqXHR)
+
+callback_handler = (data, textStatus, jqXHR )->
+    $("#food_measure").empty()
+
+    set_nutrients(data)
+    for m in data.measures
+        do ->
+            $("#food_measure").append('<option>' + m + '</option>')
+    console.log("Dynamic select OK!")
+
+reset_nutrients = (data) ->
+    $("#Energy").  val("")
+    $("#Water").   val("")
+    $("#Carbs").   val("")
+    $("#Fiber").   val("")
+    $("#Protein"). val("")
+    $("#Fat").     val("")
+
+set_nutrients = (data) ->
+    $('#Energy').val(data.nutrients['Energy'])
+    $('#Water').val(data.nutrients['Water'])
+    $('#Carbs').val(data.nutrients['Carbs'])
+    $('#Fiber').val(data.nutrients['Fiber'])
+    $('#Protein').val(data.nutrients['Protein'])
+    $('#Fat').val(data.nutrients['Fat'])
+
+# Dynamically update the nutrient values upon change in food measure
+$ ->
+    $(document).on 'change', '#food_measure', (evt) ->
+        reset_nutrients
+        $.ajax 'update_nutrients',
+            type: 'GET'
+            dataType: 'json'
+            data: {
+                ndbno: $("#food_type_id option:selected").val()
+                measure: $("#food_measure").val()
+            }
+            error: (jqXHR, textStatus, errorThrown) ->
+                console.log("AJAX Error: #{textStatus}")
+            success: (data, textStatus, jqXHR) ->
+                set_nutrients(data)
+                console.log("Dynamic select OK!")
+
+
+# Dynamically update the nutrient values upon change in food amount
+$ ->
+    $(document).on 'change', '#food_amount', (evt) ->
+        reset_nutrients
+        $.ajax 'update_nutrients',
+            type: 'GET'
+            dataType: 'json'
+            data: {
+                ndbno: $("#food_type_id option:selected").val()
+                measure: $("#food_measure").val()
+                quantity: $("#food_amount").val()
+            }
+            error: (jqXHR, textStatus, errorThrown) ->
+                console.log("AJAX on_change_quantity  Error: #{textStatus}")
+            success: (data, textStatus, jqXHR) ->
+                set_nutrients(data)
+                console.log("AJAX on_change_quantity  select OK!")

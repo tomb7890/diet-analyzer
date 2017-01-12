@@ -39,7 +39,7 @@ class FoodsController < ApplicationController
     quantity = 1.0
     @nutrients = nutrients_for_new_food_panel(ndbno, quantity)
     respond_to do |format|
-      format.js
+      format.json { render json: { measures: @measures, nutrients: @nutrients }}
     end
   end
 
@@ -55,7 +55,7 @@ class FoodsController < ApplicationController
 
     @nutrients = nutrients_for_new_food_panel(ndbno, quantity, measure)
     respond_to do |format|
-      format.js
+      format.json { render json: { nutrients: @nutrients }}
     end
   end
 
@@ -64,6 +64,4 @@ class FoodsController < ApplicationController
   def food_params
     params.require(:food).permit(:ndbno, :amount, :measure)
   end
-
-
 end
