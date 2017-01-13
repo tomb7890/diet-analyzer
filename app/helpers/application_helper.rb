@@ -39,7 +39,7 @@ module ApplicationHelper
     value
   end
 
-  def nutrients_for_new_food_panel(ndbno, quantity, measure = "g")
+  def nutrients_for_food_panel(ndbno, quantity, measure = "g")
     hash = {}
 
     hash['Energy'] = nutrient_per_measure('Energy', ndbno, measure, quantity)

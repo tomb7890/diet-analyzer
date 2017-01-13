@@ -10,21 +10,38 @@ $ ->
             type: 'GET'
             dataType: 'json'
             data: {
-                ndbno: $("#food_type_id option:selected").val()
+                ndbno: $("#food_ndbno").val()
             }
             error: (jqXHR, textStatus, errorThrown) ->
                 console.log("AJAX Error: #{textStatus}")
             success: (data, textStatus, jqXHR) =>
                 callback_handler(data, textStatus, jqXHR)
 
+
+$ ->
+    pattern = /foods.*edit/
+    url =($(location).attr('href'))
+    if (url.match(pattern))
+        $.ajax 'update_measures',
+            type: 'GET'
+            dataType: 'json'
+            data: {
+                ndbno: $("#food_ndbno").val()
+                amount: $("#food_amount").val()
+            }
+            error: (jqXHR, textStatus, errorThrown) ->
+                console.log("AJAX Error: #{textStatus}")
+            success: (data, textStatus, jqXHR) ->
+                callback_handler(data, textStatus, jqXHR)
+                $("#food_measure").val(data.selected_measure)
+
+
 callback_handler = (data, textStatus, jqXHR )->
     $("#food_measure").empty()
-
     set_nutrients(data)
     for m in data.measures
         do ->
             $("#food_measure").append('<option>' + m + '</option>')
-    console.log("Dynamic select OK!")
 
 reset_nutrients = (data) ->
     $("#Energy").  val("")
@@ -50,7 +67,7 @@ $ ->
             type: 'GET'
             dataType: 'json'
             data: {
-                ndbno: $("#food_type_id option:selected").val()
+                ndbno: $("#food_ndbno").val()
                 measure: $("#food_measure").val()
             }
             error: (jqXHR, textStatus, errorThrown) ->
@@ -68,7 +85,7 @@ $ ->
             type: 'GET'
             dataType: 'json'
             data: {
-                ndbno: $("#food_type_id option:selected").val()
+                ndbno: $("#food_ndbno").val()
                 measure: $("#food_measure").val()
                 quantity: $("#food_amount").val()
             }

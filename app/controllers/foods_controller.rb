@@ -29,31 +29,53 @@ class FoodsController < ApplicationController
 
   def edit
     @food = Food.find(params[:id])
-    @measures = measures_for_food(@food.ndbno)
-    @nutrients = nutrients_for_new_food_panel(@food.ndbno, @food.amount, @food.measure )
+  end
+
+  def update
+    @food = Food.find(params[:id])
+
+    if @food.update_attributes(food_params)
+      redirect_to foods_url
+    else
+      render :edit
+    end
   end
 
   def update_measures
-    ndbno = params[:ndbno]
-    @measures = measures_for_food(ndbno)
-    quantity = 1.0
-    @nutrients = nutrients_for_new_food_panel(ndbno, quantity)
-    respond_to do |format|
-      format.json { render json: { measures: @measures, nutrients: @nutrients }}
+    if params[:id]
+      @measures = measures_for_food(params[:ndbno])
+
+      current_food = Food.find(params[:id])
+
+      @nutrients = nutrients_for_food_panel(current_food.ndbno,
+                                            current_food.amount,
+                                            current_food.measure,
+                                           )
+      respond_to do |format|
+        format.json { render json: { measures: @measures, nutrients: @nutrients,
+                                     selected_measure: current_food.measure }}
+      end
+    else # called upon change in food selection
+      ndbno = params[:ndbno]
+      @measures = measures_for_food(ndbno)
+      amount = 1.0
+      @nutrients = nutrients_for_food_panel(ndbno, amount)
+      respond_to do |format|
+        format.json { render json: { measures: @measures, nutrients: @nutrients }}
+      end
     end
   end
 
   def update_nutrients
     ndbno = params[:ndbno]
     measure = params[:measure]
+    amount = 1.0
 
-    quantity = 1.0
-
-    if params[:quantity]
-      quantity = params[:quantity]
+    if params[:amount]
+      amount = params[:amount]
     end
 
-    @nutrients = nutrients_for_new_food_panel(ndbno, quantity, measure)
+    @nutrients = nutrients_for_food_panel(ndbno, amount, measure)
     respond_to do |format|
       format.json { render json: { nutrients: @nutrients }}
     end
