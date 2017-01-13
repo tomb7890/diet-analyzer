@@ -87,10 +87,10 @@ $ ->
             data: {
                 ndbno: $("#food_ndbno").val()
                 measure: $("#food_measure").val()
-                quantity: $("#food_amount").val()
+                amount: $("#food_amount").val()
             }
             error: (jqXHR, textStatus, errorThrown) ->
-                console.log("AJAX on_change_quantity  Error: #{textStatus}")
+                console.log("AJAX on_change_amount  Error: #{textStatus}")
             success: (data, textStatus, jqXHR) ->
                 set_nutrients(data)
-                console.log("AJAX on_change_quantity  select OK!")
+                console.log("AJAX on_change_amount  select OK!")
