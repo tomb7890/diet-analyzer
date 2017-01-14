@@ -1,5 +1,7 @@
 class Food < ActiveRecord::Base
 
+  include Utility
+
   def calories
     nutrient('Energy')
   end
@@ -13,26 +15,8 @@ class Food < ActiveRecord::Base
     end
   end
 
-  def nutrient(arg)
-    value = nil
-    response = caching_find(ndbno)
-    unless response.nil?
-      allnutrients = response['nutrients']
-      energy = allnutrients.select { |n| n['name'] == arg }[0]
-      allmeasures = energy['measures']
-
-      hash = nil
-      if measure.size > 0
-        hash = allmeasures.select { |m| m['label'] == measure }[0]
-      else
-        hash = allmeasures.first
-      end
-      unless hash.nil?
-        value = hash['value'].to_f
-      end
-
-    end
-    value
+  def nutrient(nutrient_name)
+    nutrient_per_measure(nutrient_name, ndbno, measure, amount )
   end
 
   def name
