@@ -34,10 +34,12 @@ module ApplicationHelper
     array = []
     if hashes
       hashes.each do |h|
-        array_element = []
-        array_element << h['name']
-        array_element << h['ndbno']
-        array << array_element
+        if h.class == Hash && h.key?('name') && h.key?('ndbno')
+          array_element = []
+          array_element << h['name']
+          array_element << h['ndbno']
+          array << array_element
+        end
       end
     end
     array
