@@ -18,7 +18,7 @@ $ ->
                 callback_handler(data, textStatus, jqXHR)
 
 
-$ ->
+on_food_edit = ->
     pattern = /foods.*edit/
     url =($(location).attr('href'))
     if (url.match(pattern))
@@ -35,6 +35,9 @@ $ ->
                 callback_handler(data, textStatus, jqXHR)
                 $("#food_measure").val(data.selected_measure)
 
+
+$ ->
+    $(document).on('turbolinks:load', on_food_edit)
 
 callback_handler = (data, textStatus, jqXHR )->
     $("#food_measure").empty()
