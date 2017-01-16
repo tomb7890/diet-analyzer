@@ -10,8 +10,10 @@ module ApplicationHelper
   end
 
   def caching_search(term)
-    Rails.cache.fetch(term, expires_in: 28.days) do
-      response = Usda.search(term)
+    unless term.blank?
+      Rails.cache.fetch(term, expires_in: 28.days) do
+        response = Usda.search(term)
+      end
     end
   end
 
