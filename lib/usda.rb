@@ -39,7 +39,7 @@ class Usda
     food_id_rjust = food_id.to_s.rjust(5, '0')
     options = {
       'ndbno' => food_id_rjust,
-      'type' => 'b',
+      'type' => 'f',
       'format' => 'json',
       'api_key' => api_key
     }
