@@ -17,7 +17,9 @@ module Utility
           else
             hash = allmeasures.first
           end
-          value = hash['value'].to_f
+          unless hash.nil?
+            value = hash['value'].to_f
+          end
         end
       end
     end

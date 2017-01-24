@@ -17,6 +17,11 @@ class UtilityTest < ActiveSupport::TestCase
     assert 'N/A' == result
   end
 
+  test 'correctly handle bogus measure' do
+    result = nutrient_per_measure('Cholesterol', STRAWBERRIES_NDBNO, 'foobar', 1.0)
+    assert 'N/A' == result
+  end
+
   test 'correctly handle valid query' do
     result = nutrient_per_measure('Cholesterol', STRAWBERRIES_NDBNO, 'g', 1.0)
     assert 0.00 == result
