@@ -1,4 +1,13 @@
 module Utility
+
+  def formatit(input)
+    value = input
+    if input.class == Float
+      value = sprintf('%2.2f', input)
+    end
+    value
+  end
+
   def nutrient_per_measure(nutrient_name, ndbno, measure, q)
     quantity = q.to_f
     value = 'N/A'
@@ -19,6 +28,10 @@ module Utility
           end
           unless hash.nil?
             value = hash['value'].to_f
+            qty = hash['qty'].to_f
+            if qty
+              value = value / qty
+            end
           end
         end
       end
@@ -26,4 +39,5 @@ module Utility
     value *= quantity if value != 'N/A'
     value
   end
+
 end
