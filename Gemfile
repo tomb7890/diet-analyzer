@@ -45,6 +45,7 @@ group :development do
   gem 'spring'
 end
 
+gem 'chartkick'
 gem 'haml'
 gem 'httparty'
 gem "econfig", require: "econfig/rails"
