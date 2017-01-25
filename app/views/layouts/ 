@@ -1,0 +1,52 @@
+bash-3.2$ pwd
+/Users/tombillingsley/code/usda-party/app/views/layouts
+bash-3.2$ cat > gumby.html.erb
+.navbar-header
+  %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+    %span.sr-only Toggle navigation
+    %span.icon-bar
+    %span.icon-bar
+    %span.icon-bar
+  %a.navbar-brand{:href => "<haml_loud"}
+    root_path  >#{Rails.application.class.parent_name}
+.navbar-collapse.collapse
+  %ul.nav.navbar-nav.navbar-right
+    %li.active
+      %a{:href => "#"} Home
+    %li
+      %a{:href => "#about"} About
+    %li.dropdown
+      %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+        Themes
+        %b.caret
+      %ul.dropdown-menu
+        \\#{Rails.application.class.parent_name}
+    %li
+      %a{:href => "#"} Contact
+/ /.nav-conllapse
+bash-3.2$ ls
+_navbar.html.erb	_navbar.html.haml	application.html.erb
+bash-3.2$ pwd
+/Users/tombillingsley/code/usda-party/app/views/layouts
+bash-3.2$ wget macbookpro.local:~/ --output-document=junk1.html
+--2017-01-19 17:25:17--  ftp://macbookpro.local/~/
+           => '.listing'
+Resolving macbookpro.local... 192.168.0.101, fe80::a65e:60ff:fecc:7449
+Connecting to macbookpro.local|192.168.0.101|:21... failed: Connection refused.
+Connecting to macbookpro.local|fe80::a65e:60ff:fecc:7449|:21... failed: Connection refused.
+bash-3.2$ wget http://macbookpro.local:~/ --output-document=junk1.html
+http://macbookpro.local:~/: Bad port number.
+bash-3.2$ wget http://macbookpro.local:3000 --output-document=junk1.html
+
+--2017-01-19 17:25:34--  http://macbookpro.local:3000/
+Resolving macbookpro.local... 192.168.0.101, fe80::a65e:60ff:fecc:7449
+Connecting to macbookpro.local|192.168.0.101|:3000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 8669 (8.5K) [text/html]
+Saving to: 'junk1.html'
+
+junk1.html          100%[=====================>]   8.47K  --.-KB/s   in 0s     
+
+2017-01-19 17:25:34 (162 MB/s) - 'junk1.html' saved [8669/8669]
+
+bash-3.2$ bash-3.2$ 
