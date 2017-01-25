@@ -1,5 +1,4 @@
-%h3 USDA Party: Foods ( #{@foods.length})
-%li= link_to "New Food" , "/foods/new"
+=link_to "Add Serving" , "/foods/new"
 
 %table{:class => "table table-condensed" }
   %thead
@@ -12,7 +11,71 @@
     - @foods.each do |f|
       %tr
         %td
-          %li= link_to f.name, food_path(f)
+          %li= link_to f.name, edit_food_path(f), title: "Edit entry for #{f.name}"
         %td= "#{f.amount}"
         %td= "#{f.measure}"
-        %td= "#{f.calories}"
+        %td= "#{formatit(f.calories)}"
+
+%ul.nav.nav-tabs#dashboard_products
+  %li
+    %a{"data-target" => "#summary", "data-toggle" => "tab", href: "#"} Summary
+  %li
+    %a{"data-target" => "#vitamins", "data-toggle" => "tab", href: "#"} Vitamins
+  %li
+    %a{"data-target" => "#minerals", "data-toggle" => "tab", href: "#"} Minerals
+  %li
+    %a{"data-target" => "#lipids", "data-toggle" => "tab", href: "#"} Lipids
+  %li
+    %a{"data-target" => "#amino_acids", "data-toggle" => "tab", href: "#"} Amino Acids
+  %li
+    %a{"data-target" => "#dash", "data-toggle" => "tab", href: "#"} DASH Analysis
+
+.tab-content
+
+  #home.tab-pane.active.fade.in
+  #profile.tab-pane profile tab content
+  #summary.tab-pane.active
+
+    %div{class: 'row'}
+      %div{class: 'col-xs-6'}
+
+        = pie_chart(piechartdata, width: "80px", height: "175px"  )
+
+      %div{class: 'col-xs-6'}
+        %table{:class => "table table-condensed", title: "Nutrient Totals" }
+          Nutrient Totals
+          %thead
+            %tr
+              %th  Food
+              %th  Amount
+          %tbody
+            %tr
+              %td= "Calories"
+              %td= daily_helper('Energy')
+            %tr
+              %td= "Protein"
+              %td= daily_helper('Protein')
+            %tr
+              %td= "Carbs"
+              %td= daily_helper('Carbohydrate, by difference')
+            %tr
+              %td= "Fat"
+              %td= daily_helper('Total lipid (fat)')
+            %tr
+              %td= "Fiber"
+              %td= daily_helper("Fiber, total dietary")
+
+
+  #general.tab-pane.fade.in
+    -# - @food = Food.limit(1).offset(3).first
+    -# = render :partial => "table", locals: { category: "Proximates" }
+  #vitamins.tab-pane.fade.in
+    =render :partial => "tab_pane", locals: { category: "Vitamins" }
+  #dash.tab-pane
+
+  #minerals.tab-pane
+    =render :partial => "tab_pane", locals: { category: "Minerals" }
+  #lipids.tab-pane
+    =render :partial => "tab_pane", locals: { category: "Lipids" }
+  #amino_acids.tab-pane
+    =render :partial => "tab_pane", locals: { category: "Amino Acids" }
