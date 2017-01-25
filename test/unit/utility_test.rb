@@ -11,17 +11,17 @@ class UtilityTest < ActiveSupport::TestCase
 
   test 'correctly handle bogus nutrient on valid food' do
     result = nutrient_per_measure('Kryptonite', STRAWBERRIES_NDBNO, 'g', 1.0)
-    assert 'N/A' == result
+    assert NOT_AVAILABLE == result
   end
 
   test 'correctly handle bogus food and valid food ' do
     result = nutrient_per_measure('Cholesterol', BOGUS_NDBNO, 'g', 1.0)
-    assert 'N/A' == result
+    assert NOT_AVAILABLE == result
   end
 
   test 'correctly handle bogus measure' do
-    result = nutrient_per_measure(TAG_ENERGY, STRAWBERRIES_NDBNO, 'foobar', 1.0)
-    assert 'N/A' == result
+    result = nutrient_per_measure(TAG_ENERGY, STRAWBERRIES_NDBNO, 'foobar', 3.0)
+    assert NOT_AVAILABLE == result
   end
 
   test 'correctly handle valid query' do

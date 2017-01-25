@@ -1,5 +1,7 @@
 module Utility
 
+  NOT_AVAILABLE = 'N/A'
+
   def formatit(input)
     value = input
     if input.class == Float
