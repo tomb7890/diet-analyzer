@@ -4,7 +4,7 @@ $ ->
         $("#food_amount"). val("1.0")
         $("#food_ndbno"). val($("#food_type_id option:selected").val() )
 
-        reset_nutrients
+        reset_nutrients()
 
         $.ajax 'update_measures',
             type: 'GET'
@@ -65,7 +65,8 @@ set_nutrients = (data) ->
 # Dynamically update the nutrient values upon change in food measure
 $ ->
     $(document).on 'change', '#food_measure', (evt) ->
-        reset_nutrients
+        reset_nutrients()
+
         $.ajax 'update_nutrients',
             type: 'GET'
             dataType: 'json'
@@ -83,7 +84,7 @@ $ ->
 # Dynamically update the nutrient values upon change in food amount
 $ ->
     $(document).on 'change', '#food_amount', (evt) ->
-        reset_nutrients
+        reset_nutrients()
         $.ajax 'update_nutrients',
             type: 'GET'
             dataType: 'json'
