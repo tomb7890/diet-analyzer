@@ -1,23 +1,11 @@
--# %form{:class => "form-inline"}
-
-= form_for @food do |f|
-  %div{:class => 'field form-group'}
+= form_for @food,  {:html => {:class => "form-inline"}}  do |f|
+  %div{:class => 'form-group'}
     = f.label :amount
-    = f.text_field :amount
-  %div{:class => 'field form-group'}
+    = f.text_field :amount, class: "form-control"
+  %div{:class => 'form-group'}
     = f.label :measure
-    = f.select :measure, ""
-
+    = f.select :measure, "", {}, {class: "form-control"}
+  %div{:class => 'form-group'}
     = f.hidden_field :ndbno
-  %div{:class => 'actions form-group'}
-    = f.submit  "Save"
-
-
-
--# -# %div{:class =>'form-group'}
--#   %label{:for => 'quantity'}='Quantity'
--#   = text_field_tag 'quantity', "1", class: "form-control"
--# %div{:class => 'form-group'}
--#   = select_tag(:food_measure_id, class: "form-control")
--# %div{:class => 'form-group'}
--#   %button{type: "submit", class: "btn btn-default" }='Add'
+  %div{:class => 'form-group'}
+    = f.submit  "Save", class: "form-control"
