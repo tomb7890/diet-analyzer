@@ -28,7 +28,9 @@
   %li
     %a{"data-target" => "#amino_acids", "data-toggle" => "tab", href: "#"} Amino Acids
   %li
-    %a{"data-target" => "#dash", "data-toggle" => "tab", href: "#"} DASH Analysis
+    %a{"data-target" => "#energy_density", "data-toggle" => "tab", href: "#"} Energy Density
+  %li
+    %a{"data-target" => "#dash_analysis", "data-toggle" => "tab", href: "#"} DASH Analysis
 
 .tab-content
 
@@ -38,9 +40,7 @@
 
     %div{class: 'row'}
       %div{class: 'col-xs-6'}
-
         = pie_chart(piechartdata, width: "80px", height: "175px"  )
-
       %div{class: 'col-xs-6'}
         %table{:class => "table table-condensed", title: "Nutrient Totals" }
           Nutrient Totals
@@ -79,3 +79,7 @@
     =render :partial => "tab_pane", locals: { category: "Lipids" }
   #amino_acids.tab-pane
     =render :partial => "tab_pane", locals: { category: "Amino Acids" }
+  #dash_analysis.tab-pane
+    Dash Analysis
+  #energy_density.tab-pane
+    Energy Density chart
