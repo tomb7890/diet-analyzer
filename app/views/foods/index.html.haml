@@ -51,19 +51,19 @@
           %tbody
             %tr
               %td= "Calories"
-              %td= daily_helper('Energy')
+              %td= daily_helper(Nutrients::ENERC_KCAL)
             %tr
               %td= "Protein"
-              %td= daily_helper('Protein')
+              %td= daily_helper(Nutrients::PROCNT)
             %tr
               %td= "Carbs"
-              %td= daily_helper('Carbohydrate, by difference')
+              %td= daily_helper(Nutrients::CHOCDF)
             %tr
               %td= "Fat"
-              %td= daily_helper('Total lipid (fat)')
+              %td= daily_helper(Nutrients::FAT)
             %tr
               %td= "Fiber"
-              %td= daily_helper("Fiber, total dietary")
+              %td= daily_helper(Nutrients::FIBTG)
 
 
   #general.tab-pane.fade.in
