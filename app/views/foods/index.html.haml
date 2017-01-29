@@ -30,11 +30,11 @@
   %li
     %a{"data-target" => "#energy_density", "data-toggle" => "tab", href: "#"} Energy Density
   %li
-    %a{"data-target" => "#dash_analysis", "data-toggle" => "tab", href: "#"} DASH Analysis
+    %a{"data-target" => "#dash_analysis", "data-toggle" => "tab", href: "#"} Healthy Diet Goals
 
 .tab-content
 
-  #home.tab-pane.active.fade.in
+  #home.tab-pane
   #profile.tab-pane profile tab content
   #summary.tab-pane.active
 
@@ -80,6 +80,11 @@
   #amino_acids.tab-pane
     =render :partial => "tab_pane", locals: { category: "Amino Acids" }
   #dash_analysis.tab-pane
-    Dash Analysis
+    =render :partial => "diet_goals"
   #energy_density.tab-pane
-    Energy Density chart
+    %div{class: 'row'}
+      %div{class: 'col-xs-6'}
+        Boo
+        -# = column_chart_stuff
+      %div{class: 'col-xs-6'}
+        There is some content that will go in this pane.

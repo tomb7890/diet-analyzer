@@ -1,0 +1,15 @@
+- titletext="Guidelines for Healthful Eating"
+
+%div{class: 'row'}
+  %div{class: 'col-xs-6'}
+    = bar_chart(piechartdata, width: "80px", height: "175px"  )
+  %div{class: 'col-xs-6'}
+    %table{:class => "table table-condensed", title: titletext}
+      =titletext
+      %thead
+        %tr
+          %th  Goal
+          %th  Met
+
+      %tbody
+        = render :partial => "diet_goals_table_body"
