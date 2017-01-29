@@ -16,8 +16,8 @@
         %td= "#{f.measure}"
         %td= "#{formatit(f.calories)}"
 
-%ul.nav.nav-tabs#dashboard_products
-  %li
+%ul.nav.nav-tabs
+  %li.active
     %a{"data-target" => "#summary", "data-toggle" => "tab", href: "#"} Summary
   %li
     %a{"data-target" => "#vitamins", "data-toggle" => "tab", href: "#"} Vitamins
@@ -30,61 +30,25 @@
   %li
     %a{"data-target" => "#energy_density", "data-toggle" => "tab", href: "#"} Energy Density
   %li
-    %a{"data-target" => "#dash_analysis", "data-toggle" => "tab", href: "#"} Healthy Diet Goals
+    %a{"data-target" => "#diet_goals", "data-toggle" => "tab", href: "#"} Healthy Diet Goals
 
 .tab-content
-
-  #home.tab-pane
-  #profile.tab-pane profile tab content
-  #summary.tab-pane.active
-
-    %div{class: 'row'}
-      %div{class: 'col-xs-6'}
-        = pie_chart(piechartdata, width: "80px", height: "175px"  )
-      %div{class: 'col-xs-6'}
-        %table{:class => "table table-condensed", title: "Nutrient Totals" }
-          Nutrient Totals
-          %thead
-            %tr
-              %th  Food
-              %th  Amount
-          %tbody
-            %tr
-              %td= "Calories"
-              %td= daily_helper(Nutrients::ENERC_KCAL)
-            %tr
-              %td= "Protein"
-              %td= daily_helper(Nutrients::PROCNT)
-            %tr
-              %td= "Carbs"
-              %td= daily_helper(Nutrients::CHOCDF)
-            %tr
-              %td= "Fat"
-              %td= daily_helper(Nutrients::FAT)
-            %tr
-              %td= "Fiber"
-              %td= daily_helper(Nutrients::FIBTG)
-
-
-  #general.tab-pane.fade.in
-    -# - @food = Food.limit(1).offset(3).first
-    -# = render :partial => "table", locals: { category: "Proximates" }
-  #vitamins.tab-pane.fade.in
+  #summary.tab-pane.fade.in.active
+    =render :partial => "summary_tab_content"
+  #vitamins.tab-pane.fade
     =render :partial => "tab_pane", locals: { category: "Vitamins" }
-  #dash.tab-pane
-
-  #minerals.tab-pane
+  #minerals.tab-pane.fade
     =render :partial => "tab_pane", locals: { category: "Minerals" }
-  #lipids.tab-pane
+  #lipids.tab-pane.fade
     =render :partial => "tab_pane", locals: { category: "Lipids" }
-  #amino_acids.tab-pane
+  #amino_acids.tab-pane.fade
     =render :partial => "tab_pane", locals: { category: "Amino Acids" }
-  #dash_analysis.tab-pane
+  #diet_goals.tab-pane.fade
     =render :partial => "diet_goals"
-  #energy_density.tab-pane
+  #energy_density.tab-pane.fade
     %div{class: 'row'}
       %div{class: 'col-xs-6'}
         Boo
-        -# = column_chart_stuff
+
       %div{class: 'col-xs-6'}
         There is some content that will go in this pane.
