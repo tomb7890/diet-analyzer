@@ -49,4 +49,40 @@ class UtilityTest < ActiveSupport::TestCase
     result = nutrient_per_measure(CHOLE, TURKEY_NDBNO, "oz", 1)
     assert 29 == result.to_i
   end
+
+  test 'determine eqv weight in grams of food serving ' do
+    squash_winter_butternut_cooked_baked_without_salt = 11486
+    measure = "cup, cubes"
+
+    expected = 205
+    actual =gram_equivelent(squash_winter_butternut_cooked_baked_without_salt,
+                            measure)
+
+    assert expected == actual
+  end
+
+  test 'determine eqv weight in grams of potato' do
+    potato_baked_russet = 11356
+    measure = "potato large (3\" to 4-1\/4\" dia."
+    expected = 299
+    actual = gram_equivelent(potato_baked_russet, measure)
+    assert expected == actual
+  end
+
+  test 'determine eqv weight in grams, varying qty parameters' do
+    turkey = '05200'
+    measure = 'oz'
+    expected = 28
+    actual = gram_equivelent(turkey, measure).to_i
+    assert expected == actual
+  end
+
+  test 'another test, varying qty parameters' do
+    turkey = '05200'
+    measure = 'turkey, bone removed'
+    expected = 808*2
+    actual = gram_equivelent(turkey, measure).to_i
+    assert expected == actual
+  end
+
 end
