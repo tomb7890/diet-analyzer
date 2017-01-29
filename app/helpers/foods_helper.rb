@@ -1,6 +1,8 @@
 # coding: utf-8
 module FoodsHelper
 
+  include Nutrients
+
   def tab_pane_nutrients(category)
     y = case category
         when 'Vitamins'
