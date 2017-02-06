@@ -22,6 +22,16 @@ module ApplicationHelper
     }
   end
 
+  def energy_density_data
+    hash = {}
+    Food.all.each do |f|
+      key = f.name.split(/\W/).first
+      value = energy_density(f.ndbno)
+      hash[key] =value
+    end
+    hash
+  end
+
   def energy_from_carbohydrate
     sum = 4.0 * total_nutrient_amount(Nutrients::CHOCDF)
     sum

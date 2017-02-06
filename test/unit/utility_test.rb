@@ -85,4 +85,17 @@ class UtilityTest < ActiveSupport::TestCase
     assert expected == actual
   end
 
+  test 'energy density of strawberries' do
+    expected = 145
+    actual = energy_density(STRAWBERRIES_NDBNO).to_i
+    assert expected == actual
+  end
+
+  test 'energy density of dry kasha is' do
+    expected = 1569
+    dry_kasha_ndbno = 20009
+    actual = energy_density(dry_kasha_ndbno).to_i
+    assert expected == actual
+  end
+
 end

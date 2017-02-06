@@ -45,10 +45,5 @@
     =render :partial => "tab_pane", locals: { category: "Amino Acids" }
   #diet_goals.tab-pane.fade
     =render :partial => "diet_goals"
-  #energy_density.tab-pane.fade
-    %div{class: 'row'}
-      %div{class: 'col-xs-6'}
-        Boo
-
-      %div{class: 'col-xs-6'}
-        There is some content that will go in this pane.
+  #energy_density.tab-pane.fade.in.active
+    =render :partial => "energy_density_tab"
