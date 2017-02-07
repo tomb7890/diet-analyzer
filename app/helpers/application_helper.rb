@@ -6,7 +6,7 @@ module ApplicationHelper
   include Utility
   include Nutrients
   include Goals
-  include Colors
+
 
   def measures_for_food(ndbno)
     response = Usda.caching_find(ndbno)
