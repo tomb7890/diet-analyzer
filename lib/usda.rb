@@ -6,7 +6,7 @@ class Usda
   base_uri 'api.nal.usda.gov'
 
   def self.api_key
-    UsdaParty.config.api_key
+    ENV['USDA_NDL_API_KEY']
   end
 
   def self.id_or_ndbno(hash)
