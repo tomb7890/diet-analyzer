@@ -88,14 +88,16 @@ module Utility
   end
 
   def compute_thing_over_quantity(thing, hash)
-    if hash.key? thing
-      x  = hash[thing].to_f
-      qty = hash['qty'].to_f
-      if qty
-        x = x / qty
+    if hash
+      if hash.key? thing
+        x  = hash[thing].to_f
+        qty = hash['qty'].to_f
+        if qty
+          x = x / qty
+        end
       end
+      x
     end
-    x
   end
 
 end

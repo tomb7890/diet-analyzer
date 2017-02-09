@@ -7,7 +7,6 @@ module ApplicationHelper
   include Nutrients
   include Goals
 
-
   def measures_for_food(ndbno)
     response = Usda.caching_find(ndbno)
     array = response['nutrients'].first['measures'].map { |x| x['label'] }
@@ -25,9 +24,11 @@ module ApplicationHelper
   def energy_density_data
     hash = {}
     Food.all.each do |f|
-      key = f.name.split(/\W/).first
-      value = energy_density(f.ndbno)
-      hash[key] =value
+      if f.name
+        key = f.name.split(/\W/).first
+        value = energy_density(f.ndbno)
+        hash[key] =value
+      end
     end
     hash
   end
