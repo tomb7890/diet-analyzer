@@ -21,16 +21,11 @@ class Food < ActiveRecord::Base
 
   def name
     name = nil
-    response = caching_find(ndbno)
+    response = Usda.caching_find(ndbno)
     if not response.nil?
       name = response['name']
     end
     name
   end
 
-  def caching_find(ndbno)
-    Rails.cache.fetch(ndbno, expires_in: 28.days) do
-      response = Usda.find(ndbno)
-    end
-  end
 end
