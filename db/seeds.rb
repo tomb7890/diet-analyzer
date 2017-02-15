@@ -1,30 +1,14 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
-
-
-seeddata = [8562,
-  3822,
-  1031,
-  1133,
- 11418,
-  6460,
- 16074,
- 20092,
-  9120,
-  5092,
- 16225,
- 3900 ]
-
-
-seeddata.each do |a|
-  ndbno = a
-  amt = rand(50) / 5
-  seq = 1.to_i
-  Food.create(ndbno: ndbno, measure: "", amount: amt )
-end
+Food.create("ndbno"=>"9050", "measure"=>"cup" , "amount"=>"0.5")
+Food.create("ndbno"=>"9003", "measure"=>"medium (3\" dia)" , "amount"=>"1.0")
+Food.create("ndbno"=>"45047868", "measure"=>"fl oz" , "amount"=>"8.0")
+Food.create("ndbno"=>"12155", "measure"=>"oz (14 halves)" , "amount"=>"1.0")
+Food.create("ndbno"=>"11205", "measure"=>"cucumber (8-1/4\")" , "amount"=>"1.0")
+Food.create("ndbno"=>"11251", "measure"=>"leaf outer" , "amount"=>"5.0")
+Food.create("ndbno"=>"11529", "measure"=>"cherry" , "amount"=>"8.0")
+Food.create("ndbno"=>"9202", "measure"=>"fruit (2-7/8\" dia)" , "amount"=>"1.0")
+Food.create("ndbno"=>"45015301", "measure"=>"g" , "amount"=>"80.0")
+Food.create("ndbno"=>"45104477", "measure"=>"oz" , "amount"=>"1.0")
+Food.create("ndbno"=>"45127773", "measure"=>"g" , "amount"=>"1.0")
+Food.create("ndbno"=>"20037", "measure"=>"cup" , "amount"=>"1.0")
+Food.create("ndbno"=>"11091", "measure"=>"stalk, medium (7-1/2\" - 8\" long)" , "amount"=>"6.0")
+Food.create("ndbno"=>"45064317", "measure"=>"Tbsp" , "amount"=>"1.0")
