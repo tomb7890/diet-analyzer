@@ -9,12 +9,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-
-    <div class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <%= render "layouts/navbar" %>
-            <%= yield %>
-        </div>
+    <%= render "layouts/navbar" %>
+    <div id="main_content" class="container">
+        <%= yield %>
     </div>
 </body>
 </html>
