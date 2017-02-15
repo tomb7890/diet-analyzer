@@ -73,6 +73,7 @@ $ ->
             data: {
                 ndbno: $("#food_ndbno").val()
                 measure: $("#food_measure").val()
+                amount: $("#food_amount").val()
             }
             error: (jqXHR, textStatus, errorThrown) ->
                 console.log("AJAX Error: #{textStatus}")
