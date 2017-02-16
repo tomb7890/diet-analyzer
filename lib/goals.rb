@@ -52,24 +52,27 @@ module Goals
   end
 
   def goal_dietaryfat
-    yes_no_helper((energy_from_fat.to_f /
-                   daily_helper(Nutrients::ENERC_KCAL).to_f) < 0.30)
+    yes_no_helper((energy_from_fat /
+                   total_nutrient_amount(Nutrients::ENERC_KCAL)) < 0.30)
   end
 
   def goal_satfat
-    yes_no_helper((energy_from_fat.to_f /
-                    daily_helper(Nutrients::FASAT).to_f) < 0.10)
+    energy_from_sat_fat = 9.0 * total_nutrient_amount(Nutrients::FASAT)
+    total_energy = total_nutrient_amount(Nutrients::ENERC_KCAL)
+    yes_no_helper(energy_from_sat_fat / total_energy < 0.10)
   end
 
   def goal_transfat
-    yes_no_helper(daily_helper(Nutrients::FATRN).to_f > 0.0)
+    energy_from_trans_fat = 9.0 * total_nutrient_amount(Nutrients::FATRN)
+    total_energy = total_nutrient_amount(Nutrients::ENERC_KCAL)
+    yes_no_helper(!(energy_from_trans_fat / total_energy > 0 ))
   end
 
   def goal_fiber
-    yes_no_helper(daily_helper(Nutrients::FIBTG).to_f > 15)
+    yes_no_helper(total_nutrient_amount(Nutrients::FIBTG) > 15)
   end
 
   def goal_sodium
-    yes_no_helper(daily_helper(Nutrients::NA).to_f < 2300)
+    yes_no_helper(total_nutrient_amount(Nutrients::NA) < 2300)
   end
 end
