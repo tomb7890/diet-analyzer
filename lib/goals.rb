@@ -1,5 +1,10 @@
 module Goals
 
+  CALORIES_PER_GRAM_FAT=9.0
+  CALORIES_PER_GRAM_CARB=4.0
+  CALORIES_PER_GRAM_PROTEIN=9.0
+
+
   def fruit_and_veg_goal
     # At least 400 g (5 portions) of fruits and vegetables a day
     # (2). Potatoes, sweet potatoes, cassava and other starchy roots are
@@ -57,13 +62,13 @@ module Goals
   end
 
   def goal_satfat
-    energy_from_sat_fat = 9.0 * total_nutrient_amount(Nutrients::FASAT)
+    energy_from_sat_fat = CALORIES_PER_GRAM_FAT * total_nutrient_amount(Nutrients::FASAT)
     total_energy = total_nutrient_amount(Nutrients::ENERC_KCAL)
     yes_no_helper(energy_from_sat_fat / total_energy < 0.10)
   end
 
   def goal_transfat
-    energy_from_trans_fat = 9.0 * total_nutrient_amount(Nutrients::FATRN)
+    energy_from_trans_fat = CALORIES_PER_GRAM_FAT * total_nutrient_amount(Nutrients::FATRN)
     total_energy = total_nutrient_amount(Nutrients::ENERC_KCAL)
     yes_no_helper(!(energy_from_trans_fat / total_energy > 0 ))
   end

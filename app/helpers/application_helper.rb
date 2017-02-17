@@ -34,17 +34,17 @@ module ApplicationHelper
   end
 
   def energy_from_carbohydrate
-    sum = 4.0 * total_nutrient_amount(Nutrients::CHOCDF)
+    sum = CALORIES_PER_GRAM_CARB * total_nutrient_amount(Nutrients::CHOCDF)
     sum
   end
 
   def energy_from_fat
-    sum = 9.0 * total_nutrient_amount(Nutrients::FAT)
+    sum = CALORIES_PER_GRAM_FAT * total_nutrient_amount(Nutrients::FAT)
     sum
   end
 
   def energy_from_protein
-    sum = 4.0 * total_nutrient_amount(Nutrients::PROCNT)
+    sum = CALORIES_PER_GRAM_PROTEIN * total_nutrient_amount(Nutrients::PROCNT)
     sum
   end
 
