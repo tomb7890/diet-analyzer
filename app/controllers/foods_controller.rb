@@ -3,7 +3,7 @@ class FoodsController < ApplicationController
   include ApplicationHelper
 
   def index
-    @foods = Food.all
+    @foods = Food.order(:id).all
   end
 
   def new
