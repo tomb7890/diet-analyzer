@@ -98,4 +98,16 @@ class UtilityTest < ActiveSupport::TestCase
     assert expected == actual
   end
 
+  test 'correctly finds the general factor from a multi-ingredient food ' do
+    expected = CALORIES_PER_GRAM_CARB
+    actual = calories_per_gram(BIGMAC_NDBNO, 'cf', CALORIES_PER_GRAM_CARB)
+    assert expected == actual
+  end
+
+  test 'correctly finds a specific factor from a whole natural food' do
+    expected = 2.78
+    actual = calories_per_gram(POTATO_RUSSET_NDBNO, 'pf', CALORIES_PER_GRAM_PROTEIN)
+    assert expected == actual
+  end
+
 end

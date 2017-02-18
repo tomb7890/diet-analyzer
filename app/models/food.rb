@@ -1,6 +1,7 @@
 class Food < ActiveRecord::Base
 
   include Utility
+  include ApplicationHelper
 
   def calories
     nutrient('Energy')
@@ -13,6 +14,24 @@ class Food < ActiveRecord::Base
       nutrients = response['nutrients']
       results = nutrients.select {|hash|hash['group'] == x }
     end
+  end
+
+  def carb_energy
+    factor = calories_per_gram(ndbno, 'cf', CALORIES_PER_GRAM_CARB)
+    grams = total_nutrient_amount(Nutrients::CHOCDF)
+    factor * grams
+  end
+
+  def fat_energy
+    factor = calories_per_gram(ndbno, 'ff', CALORIES_PER_GRAM_FAT)
+    grams = total_nutrient_amount(Nutrients::FAT)
+    factor * grams
+  end
+
+  def protein_energy
+    factor = calories_per_gram(ndbno, 'pf', CALORIES_PER_GRAM_PROTEIN)
+    grams = total_nutrient_amount(Nutrients::PROCNT)
+    factor * grams
   end
 
   def nutrient(nutrient_name)

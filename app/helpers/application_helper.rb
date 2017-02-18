@@ -34,17 +34,26 @@ module ApplicationHelper
   end
 
   def energy_from_carbohydrate
-    sum = CALORIES_PER_GRAM_CARB * total_nutrient_amount(Nutrients::CHOCDF)
+    sum = 0
+    Food.all.each do |f|
+      sum = sum + f.carb_energy
+    end
     sum
   end
 
   def energy_from_fat
-    sum = CALORIES_PER_GRAM_FAT * total_nutrient_amount(Nutrients::FAT)
+    sum = 0
+    Food.all.each do |f|
+      sum = sum + f.fat_energy
+    end
     sum
   end
 
   def energy_from_protein
-    sum = CALORIES_PER_GRAM_PROTEIN * total_nutrient_amount(Nutrients::PROCNT)
+    sum = 0
+    Food.all.each do |f|
+      sum = sum + f.protein_energy
+    end
     sum
   end
 
