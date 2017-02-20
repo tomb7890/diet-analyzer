@@ -47,20 +47,22 @@ callback_handler = (data, textStatus, jqXHR )->
             $("#food_measure").append('<option>' + m + '</option>')
 
 reset_nutrients = (data) ->
-    $("#Energy").  val("")
-    $("#Water").   val("")
-    $("#Carbs").   val("")
-    $("#Fiber").   val("")
-    $("#Protein"). val("")
-    $("#Fat").     val("")
+    $("#Energy").  text("")
+    $("#Water").   text("")
+    $("#Carbs").   text("")
+    $("#Fiber").   text("")
+    $("#Protein"). text("")
+    $("#Fat").     text("")
+
 
 set_nutrients = (data) ->
-    $('#Energy').val(data.nutrients['Energy'])
-    $('#Water').val(data.nutrients['Water'])
-    $('#Carbs').val(data.nutrients['Carbs'])
-    $('#Fiber').val(data.nutrients['Fiber'])
-    $('#Protein').val(data.nutrients['Protein'])
-    $('#Fat').val(data.nutrients['Fat'])
+    $('#Energy').text(data.nutrients['Energy'])
+    $('#Water').text(data.nutrients['Water'])
+    $('#Carbs').text(data.nutrients['Carbs'])
+    $('#Fiber').text(data.nutrients['Fiber'])
+    $('#Protein').text(data.nutrients['Protein'])
+    $('#Fat').text(data.nutrients['Fat'])
+
 
 # Dynamically update the nutrient values upon change in food measure
 $ ->

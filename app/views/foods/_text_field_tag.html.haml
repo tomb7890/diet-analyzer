@@ -1,5 +1,8 @@
-- if display
-  %p=display
-- else
-  %p=nutrient
-= text_field_tag nutrient, "", disabled: true, class: "form-control"
+%p
+  %span{:class => 'nutrient-label'}
+    - if display
+      #{display}:
+    - else
+      #{nutrient}:
+  %span{id: nutrient }
+  %span=unit
