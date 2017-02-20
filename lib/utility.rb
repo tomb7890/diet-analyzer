@@ -13,9 +13,11 @@ module Utility
   def specific_food_factor(ndbno, json_tag)
     factor = nil
     response = Usda.caching_find(ndbno)
-    x = response[json_tag]
-    if x
-      factor = x
+    if response
+      x = response[json_tag]
+      if x
+        factor = x
+      end
     end
     factor
   end
