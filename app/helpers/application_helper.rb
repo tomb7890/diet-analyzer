@@ -72,7 +72,11 @@ module ApplicationHelper
         end
       end
     end
-    sum
+    sum.to_f
+  end
+
+  def total_energy
+    total_nutrient_amount(Nutrients::ENERC_KCAL)
   end
 
   def caching_search(term)
