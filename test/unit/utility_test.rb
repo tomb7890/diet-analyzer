@@ -1,13 +1,18 @@
 require 'test_helper'
 
+
 class UtilityTest < ActiveSupport::TestCase
 
   include Utility
   include Nutrients
+  include Goals
 
   STRAWBERRIES_NDBNO = '09316'
   TURKEY_NDBNO = "05200"
   BOGUS_NDBNO = 818181818181818
+
+  BIGMAC_NDBNO='21350'
+  POTATO_RUSSET_NDBNO ='11674'
 
   test 'correctly handle bogus nutrient on valid food' do
     result = nutrient_per_measure('Kryptonite', STRAWBERRIES_NDBNO, 'g', 1.0)
