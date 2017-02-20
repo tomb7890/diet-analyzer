@@ -1,14 +1,14 @@
 %div{:class =>'row'}
   %div{:class =>'col-sm-4'}
-    = render :partial => "text_field_tag", locals: { nutrient: "Energy" }
+    = render :partial => "text_field_tag", locals: { nutrient: "Energy", unit: "calories" }
   %div{:class =>'col-sm-4'}
-    = render :partial => "text_field_tag", locals: { nutrient: "Water" }
+    = render :partial => "text_field_tag", locals: { nutrient: "Water" , unit: 'g'}
   %div{:class =>'col-sm-4'}
-    = render :partial => "text_field_tag", locals: { nutrient: "Fiber" }
+    = render :partial => "text_field_tag", locals: { nutrient: "Fiber" , unit: 'g'}
 %div{:class =>'row'}
   %div{:class =>'col-sm-4'}
-    = render :partial => "text_field_tag", locals: { nutrient: "Protein" }
+    = render :partial => "text_field_tag", locals: { nutrient: "Protein", unit: 'g' }
   %div{:class =>'col-sm-4'}
-    = render :partial => "text_field_tag", locals: { nutrient: "Carbs", display: "Carbohydrate" }
+    = render :partial => "text_field_tag", locals: { nutrient: "Carbs", display: "Carbohydrate", unit: 'g' }
   %div{:class =>'col-sm-4'}
-    = render :partial => "text_field_tag", locals: { nutrient: "Fat" }
+    = render :partial => "text_field_tag", locals: { nutrient: "Fat" , unit: 'g'}
