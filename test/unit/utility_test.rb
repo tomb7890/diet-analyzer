@@ -82,6 +82,13 @@ class UtilityTest < ActiveSupport::TestCase
     assert expected == actual
   end
 
+  test 'correct operation of gram_equivelent when measure is "g"' do
+    measure = 'g'
+    expected = 1.0
+    actual = gram_equivelent(STRAWBERRIES_NDBNO, measure).to_i
+    assert_equal expected, actual
+  end
+
   test 'another test, varying qty parameters' do
     turkey = '05200'
     measure = 'turkey, bone removed'

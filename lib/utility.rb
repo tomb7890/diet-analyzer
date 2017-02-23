@@ -41,11 +41,15 @@ module Utility
   end
 
   def gram_equivelent(ndbno, measure)
-    eqv = 0
-    foodreport = Usda.caching_find(ndbno)
-    unless foodreport.nil?
-      measure_object = measure_object_from_food_report(foodreport, measure)
-      eqv = element_from_measure_object('eqv', measure_object)
+    eqv = 0.0
+    if measure == 'g'
+      eqv = 1.0
+    else
+      foodreport = Usda.caching_find(ndbno)
+      unless foodreport.nil?
+        measure_object = measure_object_from_food_report(foodreport, measure)
+        eqv = element_from_measure_object('eqv', measure_object)
+      end
     end
     eqv.to_f
   end
