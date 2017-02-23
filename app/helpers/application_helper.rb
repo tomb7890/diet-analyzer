@@ -15,7 +15,8 @@ module ApplicationHelper
   end
 
   def piechartdata
-    { 'Protein' => energy_from_protein,
+    {
+      'Protein' => energy_from_protein,
       'Fat' => energy_from_fat,
       'Carbohydrate' => energy_from_carbohydrate
     }
