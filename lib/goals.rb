@@ -4,24 +4,24 @@ module Goals
   CALORIES_PER_GRAM_CARB=4.0
   CALORIES_PER_GRAM_PROTEIN=9.0
 
-
   def fruit_and_veg_goal
     # At least 400 g (5 portions) of fruits and vegetables a day
     # (2). Potatoes, sweet potatoes, cassava and other starchy roots are
     # not classified as fruits or vegetables.
     amount = 0.0
     @foods.each do |f|
-      amount += fresh_fruit_or_veg(f)
+      x = fresh_fruit_or_veg(f)
+      amount = x + amount
     end
     amount.to_s
   end
 
-  def fresh_fruit_or_veg(f)
+  def fresh_fruit_or_veg(database_item)
     amt = 0
-    response = Usda.caching_find(f.ndbno)
-    unless response.nil?
-      if food_is_a_fresh_vegtable_or_fruit(response)
-        amt = gram_equivelent(f.ndbno, f.measure)
+    fullreport = Usda.caching_find(database_item.ndbno)
+    unless fullreport.nil?
+      if food_is_a_fresh_vegtable_or_fruit(fullreport)
+        amt = gram_equivelent(database_item.ndbno, database_item.measure) * database_item.amount
       end
     end
     amt
@@ -44,33 +44,57 @@ module Goals
   end
 
   def yes_no_helper(condition)
-    x = if condition
-          'yes'
-        else
-          'no'
-        end
-    x
+    if condition
+      'yes'
+    else
+      'no'
+    end
   end
 
   def goal_cholesterol
-    yes_no_helper(Nutrients::CHOLE.to_f < 300)
+    yes_no_helper(total_nutrient_amount(Nutrients::CHOLE).to_f < 300)
   end
 
   def goal_dietaryfat
-    yes_no_helper((energy_from_fat /
-                   total_nutrient_amount(Nutrients::ENERC_KCAL)) < 0.30)
+    yes_no_helper(goal_dietaryfat_helper(energy_from_fat, total_energy))
+  end
+
+  def goal_dietaryfat_helper( energy_from_fat, total_energy )
+    success = true
+    if total_energy > 0
+      proportion = energy_from_fat / total_energy
+      if proportion > 0.3
+        success = false
+      end
+    end
+    success
   end
 
   def goal_satfat
-    energy_from_sat_fat = CALORIES_PER_GRAM_FAT * total_nutrient_amount(Nutrients::FASAT)
-    total_energy = total_nutrient_amount(Nutrients::ENERC_KCAL)
-    yes_no_helper(energy_from_sat_fat / total_energy < 0.10)
+    yes_no_helper(goal_satfat_helper(energy_from_sat_fat, total_energy))
+  end
+
+  def goal_satfat_helper(energy_from_sat_fat, total_energy)
+    success = true
+    if total_energy > 0
+      proportion = energy_from_sat_fat / total_energy
+      if (proportion < 0.10)
+        success = true
+      end
+    end
+    success
   end
 
   def goal_transfat
-    energy_from_trans_fat = CALORIES_PER_GRAM_FAT * total_nutrient_amount(Nutrients::FATRN)
-    total_energy = total_nutrient_amount(Nutrients::ENERC_KCAL)
-    yes_no_helper(!(energy_from_trans_fat / total_energy > 0 ))
+    yes_no_helper(goal_transfat_helper( energy_from_trans_fat, total_energy))
+  end
+
+ def goal_transfat_helper( energy_from_trans_fat, total_energy )
+    success = true
+    if energy_from_trans_fat > 0
+      success = false
+    end
+    success
   end
 
   def goal_fiber
