@@ -10,6 +10,7 @@ class UtilityTest < ActiveSupport::TestCase
   STRAWBERRIES_NDBNO = '09316'
   TURKEY_NDBNO = "05200"
   BOGUS_NDBNO = 818181818181818
+  FIREWEED_LOCAL_RAW_HONEY = 45104569
 
   BIGMAC_NDBNO='21350'
   POTATO_RUSSET_NDBNO ='11674'
@@ -33,6 +34,15 @@ class UtilityTest < ActiveSupport::TestCase
   test 'correctly handle valid query' do
     result = nutrient_per_measure(CHOLE, STRAWBERRIES_NDBNO, 'g', 1.0)
     assert_equal 0.00, result
+  end
+
+  test 'nutrient_per_measure with known flawed record' do
+    expected = 'N/A'
+    actual = nutrient_per_measure(Nutrients::WATER,
+                                  FIREWEED_LOCAL_RAW_HONEY,
+                                  'g',
+                                  1.0)
+    assert_equal expected, actual
   end
 
   test 'correctly handle second valid query' do
