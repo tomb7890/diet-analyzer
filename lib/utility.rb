@@ -9,7 +9,6 @@ module Utility
     value
   end
 
-
   def specific_food_factor(ndbno, json_tag)
     factor = nil
     response = Usda.caching_find(ndbno)
@@ -22,11 +21,11 @@ module Utility
     factor
   end
 
-  def calories_per_gram(ndbno, json_tag, general_macronutrient_factor)
-    factor = general_macronutrient_factor
-    sf = specific_food_factor(ndbno, json_tag)
-    if sf !=nil && sf.to_f > 0.0
-      factor = sf
+  def calories_per_gram(ndbno, json_tag, standard_conversion_factor)
+    factor = standard_conversion_factor
+    sff = specific_food_factor(ndbno, json_tag)
+    if sff !=nil && sff.to_f > 0.0
+      factor = sff
     end
     factor
   end
