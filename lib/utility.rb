@@ -56,11 +56,13 @@ module Utility
   def nutrient_per_measure(nutrient_name, ndbno, measure, q)
     quantity = q.to_f
     value = NOT_AVAILABLE
-    food_report = Usda.caching_find(ndbno)
-    unless food_report.nil?
+    begin
+      food_report = Usda.caching_find(ndbno)
       value = process_food_report(value, food_report, measure, nutrient_name)
+      value *= quantity
+    rescue NoMethodError => e
+      Rails.logger.error "nutrient_per_measure(#{nutrient_name}, #{ndbno}, #{measure}); #{e.class.name} : #{e.message}"
     end
-    value *= quantity if value != NOT_AVAILABLE
     value
   end
 
@@ -80,14 +82,12 @@ module Utility
   def process_food_report(value, response, measure, nutrient_name)
     allnutrients = response['nutrients']
     nutrient = allnutrients.select { |n| n['name'] == nutrient_name }[0]
-    unless nutrient.nil?
-      value = parse_nutrients(measure, nutrient, value)
-    end
+    value = parse_nutrients(measure, nutrient, value)
     value
   end
 
-
   def parse_nutrients(measure, nutrient, value)
+    value = 0
     if measure == 'g'
       value = handle_default_measure(nutrient)
     else
@@ -98,12 +98,8 @@ module Utility
 
   def handle_specified_measure(nutrient, measure, value)
     allmeasures = nutrient['measures']
-    unless measure.blank?
-      hash = allmeasures.select { |m| m['label'] == measure }[0]
-    end
-    unless hash.nil?
-      value = element_from_measure_object('value', hash)
-    end
+    hash = allmeasures.select { |m| m['label'] == measure }[0]
+    value = element_from_measure_object('value', hash)
     value
   end
 
@@ -113,16 +109,14 @@ module Utility
   end
 
   def element_from_measure_object(element, measure_object)
-    if measure_object
-      if measure_object.key? element
-        x = measure_object[element].to_f
-        qty = measure_object['qty'].to_f
-        if qty
-          x = x / qty
-        end
+    if measure_object.key? element
+      x = measure_object[element].to_f
+      qty = measure_object['qty'].to_f
+      if qty
+        x = x / qty
       end
-      x
     end
+    x
   end
 
 end
