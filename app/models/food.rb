@@ -4,7 +4,7 @@ class Food < ActiveRecord::Base
   include ApplicationHelper
 
   def calories
-    nutrient('Energy')
+    nutrient(ENERC_KCAL)
   end
 
   def nutrients_by_category(x)
