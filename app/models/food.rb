@@ -17,25 +17,25 @@ class Food < ActiveRecord::Base
   end
 
   def carb_energy
-    factor = calories_per_gram(ndbno, 'cf', CALORIES_PER_GRAM_CARB)
-    grams = total_nutrient_amount(Nutrients::CHOCDF)
-    factor * grams
+    macro_energy('cf', CALORIES_PER_GRAM_CARB, CHOCDF)
   end
 
   def fat_energy
-    factor = calories_per_gram(ndbno, 'ff', CALORIES_PER_GRAM_FAT)
-    grams = total_nutrient_amount(Nutrients::FAT)
-    factor * grams
+    macro_energy('ff', CALORIES_PER_GRAM_FAT, FAT)
   end
 
   def protein_energy
-    factor = calories_per_gram(ndbno, 'pf', CALORIES_PER_GRAM_PROTEIN)
-    grams = total_nutrient_amount(Nutrients::PROCNT)
+    macro_energy('pf', CALORIES_PER_GRAM_PROTEIN, PROCNT)
+  end
+
+  def macro_energy(tag, standard_conversion_factor, nutrient)
+    factor = calories_per_gram(ndbno, tag, standard_conversion_factor)
+    grams = nutrient_per_measure(nutrient,  ndbno, measure, amount)
     factor * grams
   end
 
   def nutrient(nutrient_name)
-    nutrient_per_measure(nutrient_name, ndbno, measure, amount )
+     nutrient_per_measure(nutrient_name, ndbno, measure, amount )
   end
 
   def name

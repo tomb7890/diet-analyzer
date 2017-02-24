@@ -35,25 +35,33 @@ module ApplicationHelper
   end
 
   def energy_from_carbohydrate
-    sum = 0
-    Food.all.each do |f|
-      sum = sum + f.carb_energy
-    end
-    sum
+    energy_from_macro('cf', CALORIES_PER_GRAM_CARB, CHOCDF)
   end
 
   def energy_from_fat
-    sum = 0
-    Food.all.each do |f|
-      sum = sum + f.fat_energy
-    end
-    sum
+    energy_from_macro('ff', CALORIES_PER_GRAM_FAT, FAT)
   end
 
   def energy_from_protein
+    energy_from_macro('pf', CALORIES_PER_GRAM_PROTEIN, PROCNT)
+  end
+
+  def energy_from_sat_fat
+    energy_from_macro('ff', CALORIES_PER_GRAM_FAT, FASAT)
+  end
+
+  def energy_from_trans_fat
+    energy_from_macro('ff', CALORIES_PER_GRAM_FAT, FATRN)
+  end
+
+  def energy_from_macro(tag, standard_conversion_factor, nutrient)
     sum = 0
     Food.all.each do |f|
-      sum = sum + f.protein_energy
+      begin
+        sum = sum + f.macro_energy(tag, standard_conversion_factor, nutrient)
+      rescue TypeError => t
+        Rails.logger.error "energy_from_macro(#{tag}, #{nutrient}, #{f.name}); #{t.class.name}: #{t.message}"
+      end
     end
     sum
   end
