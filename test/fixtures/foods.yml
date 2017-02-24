@@ -2,7 +2,7 @@
 
 soymilk:
   amount: 1
-  measure: 1
+  measure: "cup"
   ndbno: 16235
 
 raisinbran:
@@ -12,10 +12,10 @@ raisinbran:
 
 blueberries:
   amount: 1
-  measure: cup
+  measure: "cup"
   ndbno: 9050
 
 fireweed:
   amount: 100
-  measure: 1
+  measure: "cup, chopped"
   ndbno: 35038
