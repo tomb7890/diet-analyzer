@@ -4,16 +4,16 @@ module Goals
   CALORIES_PER_GRAM_CARB=4.0
   CALORIES_PER_GRAM_PROTEIN=9.0
 
-  def fruit_and_veg_goal
+  def fruit_and_veg_goal(collection)
     # At least 400 g (5 portions) of fruits and vegetables a day
     # (2). Potatoes, sweet potatoes, cassava and other starchy roots are
     # not classified as fruits or vegetables.
     amount = 0.0
-    @foods.each do |f|
+    collection.each do |f|
       x = fresh_fruit_or_veg(f)
       amount = x + amount
     end
-    amount.to_s
+    amount
   end
 
   def fresh_fruit_or_veg(database_item)
@@ -40,7 +40,8 @@ module Goals
   end
 
   def goal_fruit_and_veg
-    "Fruit and veg goal: #{fruit_and_veg_goal}"
+    value = fruit_and_veg_goal(@foods)
+    "Fruit and veg goal: #{value}"
   end
 
   def yes_no_helper(condition)
