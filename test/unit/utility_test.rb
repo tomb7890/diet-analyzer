@@ -13,21 +13,31 @@ class UtilityTest < ActiveSupport::TestCase
   FIREWEED_LOCAL_RAW_HONEY = 45104569
 
   BIGMAC_NDBNO='21350'
-  POTATO_RUSSET_NDBNO ='11674'
+  POTATO_RUSSET_NDBNO = '11674'
 
+  test 'test nutrient  method on food with bogus nutrient ' do
+    f = Food.first
+    d = f.nutrient(0101010101)
+    assert_equal d, NOT_AVAILABLE
+  end
 
   test 'correctly handle bogus nutrient on valid food' do
     result = nutrient_per_measure('Kryptonite', STRAWBERRIES_NDBNO, 'g', 1.0)
     assert_equal NOT_AVAILABLE, result
   end
 
-  test 'correctly handle bogus food and valid food ' do
+  test 'correctly handle bogus food and valid nutrient ' do
     result = nutrient_per_measure(CHOLE, BOGUS_NDBNO, 'g', 1.0)
     assert_equal NOT_AVAILABLE, result
   end
 
   test 'correctly handle bogus measure' do
     result = nutrient_per_measure(ENERC_KCAL, STRAWBERRIES_NDBNO, 'foobar', 3.0)
+    assert_equal NOT_AVAILABLE, result
+  end
+
+  test 'correctly handle bogus nutrient, bogus food, and valid measure ' do
+    result = nutrient_per_measure('Kryptonite', BOGUS_NDBNO, 'g', 3.0)
     assert_equal NOT_AVAILABLE, result
   end
 
@@ -52,8 +62,11 @@ class UtilityTest < ActiveSupport::TestCase
   end
 
   test 'correctly handle grams Energy query' do
-    result = nutrient_per_measure(ENERC_KCAL, STRAWBERRIES_NDBNO, 'g', 453.6)
-    assert_equal 145, result.to_i
+    # strawberries are 145 calories per pound
+    expected = 145
+    # One pound is 454 grams
+    actual = nutrient_per_measure(ENERC_KCAL, STRAWBERRIES_NDBNO, 'g', 454)
+    assert_in_delta actual, expected, 2
   end
 
   test 'correctly handle grams potassium query' do
@@ -134,7 +147,20 @@ class UtilityTest < ActiveSupport::TestCase
     assert_equal expected, actual
   end
 
-
+  test 'gram_equivelent with junk as food ' do
+    measure = 'turkey, bone removed'
+    expected = NOT_AVAILABLE
+    actual = gram_equivelent(BOGUS_NDBNO, measure)
+    assert_equal expected, actual
   end
+
+  test 'gram_equivelent with junk as measure ' do
+    measure = 'foobar'
+    expected = NOT_AVAILABLE
+    actual = gram_equivelent(STRAWBERRIES_NDBNO, measure)
+    assert_equal expected, actual
+  end
+
+
 
 end
