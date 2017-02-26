@@ -75,7 +75,7 @@ module ApplicationHelper
     sum = 0
     Food.all.each do |f|
       if f.amount.class != String
-        result = nutrient_per_measure(n,  f.ndbno, f.measure, f.amount)
+        result = nutrient_per_serving(n,  f.ndbno, f.measure, f.amount)
         if result.class == Float
           sum += result
         end
@@ -99,17 +99,17 @@ module ApplicationHelper
   def nutrients_for_food_panel(ndbno, quantity, measure = 'g')
     hash = {}
 
-    hash['Energy'] = nutrient_per_measure(Nutrients::ENERC_KCAL,
+    hash['Energy'] = nutrient_per_serving(Nutrients::ENERC_KCAL,
                                           ndbno, measure, quantity)
-    hash['Water'] = nutrient_per_measure(Nutrients::WATER,
+    hash['Water'] = nutrient_per_serving(Nutrients::WATER,
                                          ndbno, measure, quantity)
-    hash['Carbs'] = nutrient_per_measure(Nutrients::CHOCDF,
+    hash['Carbs'] = nutrient_per_serving(Nutrients::CHOCDF,
                                          ndbno, measure, quantity)
-    hash['Fiber'] = nutrient_per_measure(Nutrients::FIBTG, ndbno,
+    hash['Fiber'] = nutrient_per_serving(Nutrients::FIBTG, ndbno,
                                          measure, quantity)
-    hash['Protein'] = nutrient_per_measure(Nutrients::PROCNT, ndbno,
+    hash['Protein'] = nutrient_per_serving(Nutrients::PROCNT, ndbno,
                                            measure, quantity)
-    hash['Fat'] =   nutrient_per_measure(Nutrients::FAT, ndbno,
+    hash['Fat'] =   nutrient_per_serving(Nutrients::FAT, ndbno,
                                          measure, quantity)
     hash = format_hash_values(hash)
   end

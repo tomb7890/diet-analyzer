@@ -30,12 +30,12 @@ class Food < ActiveRecord::Base
 
   def macro_energy(tag, standard_conversion_factor, nutrient)
     factor = calories_per_gram(ndbno, tag, standard_conversion_factor)
-    grams = nutrient_per_measure(nutrient,  ndbno, measure, amount)
+    grams = nutrient_per_serving(nutrient,  ndbno, measure, amount)
     factor * grams
   end
 
   def nutrient(nutrient_name)
-     nutrient_per_measure(nutrient_name, ndbno, measure, amount )
+     nutrient_per_serving(nutrient_name, ndbno, measure, amount )
   end
 
   def name

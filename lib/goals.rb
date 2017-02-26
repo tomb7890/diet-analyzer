@@ -19,7 +19,7 @@ module Goals
   def fresh_fruit_or_veg(database_item)
     amt = 0
     if food_is_a_fresh_vegtable_or_fruit(database_item)
-      amt = gram_equivelent(database_item.ndbno, database_item.measure) * database_item.amount
+      amt = gram_equivalent(database_item.ndbno, database_item.measure) * database_item.amount
     end
     amt
   end

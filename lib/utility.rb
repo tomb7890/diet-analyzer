@@ -36,83 +36,83 @@ module Utility
     nutrient_name = Nutrients::ENERC_KCAL
     measure = 'g'
     q = '1.0'.to_f
-    value = nutrient_per_measure(nutrient_name, ndbno, measure, q)
+    value = nutrient_per_serving(nutrient_name, ndbno, measure, q)
     1000.0 * value.to_f / pounds_per_kilogram
   end
 
-  def gram_equivelent_with_specified_measure(ndbno, measure)
+  def gram_equivalent_with_specified_measure(ndbno, measure)
     eqv = NOT_AVAILABLE
     begin
-      foodreport = Usda.caching_find(ndbno)
-      measure_object = measure_object_from_food_report(foodreport, measure)
+      food_report = Usda.caching_find(ndbno)
+      measure_object = measure_object_from_food_report(food_report, measure)
       eqv = element_from_measure_object('eqv', measure_object)
       eqv = eqv.to_f
     rescue NoMethodError => e
-      Rails.logger.error "gram_equivelent_with_specified_measure ( #{ndbno}, #{measure}); #{e.class.name} : #{e.message}"
+      Rails.logger.error "gram_equivalent_with_specified_measure ( #{ndbno}, #{measure}); #{e.class.name} : #{e.message}"
     end
     eqv
   end
 
-  def gram_equivelent(ndbno, measure)
+  def gram_equivalent(ndbno, measure)
     if measure == 'g'
       eqv = 1.0
     else
-      eqv = gram_equivelent_with_specified_measure(ndbno, measure)
+      eqv = gram_equivalent_with_specified_measure(ndbno, measure)
     end
     eqv
   end
 
-  def nutrient_per_measure(nutrient_name, ndbno, measure, q)
+  def nutrient_per_serving(nutrient_name, ndbno, measure_name, q)
     quantity = q.to_f
     value = NOT_AVAILABLE
     begin
       food_report = Usda.caching_find(ndbno)
-      value = process_food_report(food_report, measure, nutrient_name)
+      value = nutrient_per_measure(food_report, measure_name, nutrient_name)
       value *= quantity
     rescue NoMethodError => e
-      Rails.logger.error "nutrient_per_measure(#{nutrient_name}, #{ndbno}, #{measure}); #{e.class.name} : #{e.message}"
+      Rails.logger.error "nutrient_per_serving(#{nutrient_name}, #{ndbno}, #{measure_name}); #{e.class.name} : #{e.message}"
     end
     value
   end
 
-  def measure_object_from_food_report(foodreport, measure)
-    allnutrients = foodreport['nutrients']
-    nutrient = allnutrients.first
-    measure_object = measure_object_from_nutrient(nutrient, measure)
+  def measure_object_from_food_report(food_report, measure)
+    allnutrients = food_report['nutrients']
+    a_nutrient = allnutrients.first
+    measure_object = measure_object_from_nutrient(a_nutrient, measure)
     measure_object
   end
 
-  def process_food_report(response, measure, nutrient_name)
-    allnutrients = response['nutrients']
-    nutrient = allnutrients.select { |n| n['name'] == nutrient_name }[0]
-    value = parse_nutrients(measure, nutrient)
+  def nutrient_per_measure(food_report, measure_name, nutrient_name)
+    allnutrients = food_report['nutrients']
+    nutrient_object = allnutrients.select { |n| n['name'] == nutrient_name }[0]
+    value = parse_nutrients(measure_name, nutrient_object)
     value
   end
 
-  def parse_nutrients(measure, nutrient)
+  def parse_nutrients(measure_name, nutrient_object)
     value = 0
-    if measure == 'g'
-      value = handle_default_measure(nutrient)
+    if measure_name == 'g'
+      value = handle_default_measure(nutrient_object)
     else
-      value = handle_specified_measure(nutrient, measure)
+      value = handle_specified_measure(nutrient_object, measure_name)
     end
     value
   end
 
-  def handle_specified_measure(nutrient, measure)
-    hash = measure_object_from_nutrient(nutrient, measure)
+  def measure_object_from_nutrient(nutrient_object, measure_name)
+    allmeasures = nutrient_object['measures']
+    measure_object = allmeasures.select { |m| m['label'] == measure_name }[0]
+    measure_object
+  end
+
+  def handle_specified_measure(nutrient_object, measure_name)
+    hash = measure_object_from_nutrient(nutrient_object, measure_name)
     value = element_from_measure_object('value', hash)
     value
   end
 
-  def measure_object_from_nutrient(nutrient, measure)
-    allmeasures = nutrient['measures']
-    measure_object = allmeasures.select { |m| m['label'] == measure }[0]
-    measure_object
-  end
-
-  def handle_default_measure(nutrient)
-    value = nutrient['value'].to_f
+  def handle_default_measure(nutrient_object)
+    value = nutrient_object['value'].to_f
     value / 100.0
   end
 
@@ -128,5 +128,4 @@ module Utility
     end
     x
   end
-
 end
