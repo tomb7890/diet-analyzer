@@ -78,8 +78,7 @@ module Utility
   def measure_object_from_food_report(foodreport, measure)
     allnutrients = foodreport['nutrients']
     nutrient = allnutrients.first
-    allmeasures = nutrient['measures']
-    measure_object = allmeasures.select { |m| m['label'] == measure }[0]
+    measure_object = measure_object_from_nutrient(nutrient, measure)
     measure_object
   end
 
@@ -101,10 +100,15 @@ module Utility
   end
 
   def handle_specified_measure(nutrient, measure)
-    allmeasures = nutrient['measures']
-    hash = allmeasures.select { |m| m['label'] == measure }[0]
+    hash = measure_object_from_nutrient(nutrient, measure)
     value = element_from_measure_object('value', hash)
     value
+  end
+
+  def measure_object_from_nutrient(nutrient, measure)
+    allmeasures = nutrient['measures']
+    measure_object = allmeasures.select { |m| m['label'] == measure }[0]
+    measure_object
   end
 
   def handle_default_measure(nutrient)
