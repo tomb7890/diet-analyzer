@@ -113,7 +113,9 @@ module Utility
       x = measure_object[element].to_f
       qty = measure_object['qty'].to_f
       if qty
-        x = x / qty
+        if qty > 0
+          x = x / qty
+        end
       end
     end
     x
