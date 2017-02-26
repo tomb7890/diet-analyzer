@@ -1,4 +1,5 @@
 module Utility
+
   NOT_AVAILABLE = 'N/A'
 
   def formatit(input)
@@ -39,18 +40,26 @@ module Utility
     1000.0 * value.to_f / pounds_per_kilogram
   end
 
+  def gram_equivelent_with_specified_measure(ndbno, measure)
+    eqv = NOT_AVAILABLE
+    begin
+      foodreport = Usda.caching_find(ndbno)
+      measure_object = measure_object_from_food_report(foodreport, measure)
+      eqv = element_from_measure_object('eqv', measure_object)
+      eqv = eqv.to_f
+    rescue NoMethodError => e
+      Rails.logger.error "gram_equivelent_with_specified_measure ( #{ndbno}, #{measure}); #{e.class.name} : #{e.message}"
+    end
+    eqv
+  end
+
   def gram_equivelent(ndbno, measure)
-    eqv = 0.0
     if measure == 'g'
       eqv = 1.0
     else
-      foodreport = Usda.caching_find(ndbno)
-      unless foodreport.nil?
-        measure_object = measure_object_from_food_report(foodreport, measure)
-        eqv = element_from_measure_object('eqv', measure_object)
-      end
+      eqv = gram_equivelent_with_specified_measure(ndbno, measure)
     end
-    eqv.to_f
+    eqv
   end
 
   def nutrient_per_measure(nutrient_name, ndbno, measure, q)
@@ -67,15 +76,10 @@ module Utility
   end
 
   def measure_object_from_food_report(foodreport, measure)
-    measure_object = nil
     allnutrients = foodreport['nutrients']
     nutrient = allnutrients.first
-    unless nutrient.nil?
-      allmeasures = nutrient['measures']
-      unless allmeasures.nil?
-        measure_object = allmeasures.select { |m| m['label'] == measure }[0]
-      end
-    end
+    allmeasures = nutrient['measures']
+    measure_object = allmeasures.select { |m| m['label'] == measure }[0]
     measure_object
   end
 
