@@ -18,25 +18,22 @@ module Goals
 
   def fresh_fruit_or_veg(database_item)
     amt = 0
-    fullreport = Usda.caching_find(database_item.ndbno)
-    unless fullreport.nil?
-      if food_is_a_fresh_vegtable_or_fruit(fullreport)
-        amt = gram_equivelent(database_item.ndbno, database_item.measure) * database_item.amount
-      end
+    if food_is_a_fresh_vegtable_or_fruit(database_item)
+      amt = gram_equivelent(database_item.ndbno, database_item.measure) * database_item.amount
     end
     amt
   end
 
-  def food_is_a_fresh_vegtable_or_fruit(response)
-    foodgroups = [
-      'Vegetables and Vegetable Products',
+  def food_is_a_fresh_vegtable_or_fruit(database_item)
+    foodgroups = ['Vegetables and Vegetable Products',
       'Fruits and Fruit Juices']
-    fg = response['fg']
-    (foodgroups.include? fg) && food_name_contains_the_string_raw(response)
+    food = Usda.caching_find(database_item.ndbno)
+    foodgroup = food['fg']
+    (foodgroups.include? foodgroup) && food_name_contains_raw(food)
   end
 
-  def food_name_contains_the_string_raw(response)
-    response['name'] =~ /\braw\b/i
+  def food_name_contains_raw(food)
+    food['name'] =~ /\braw\b/i
   end
 
   def goal_fruit_and_veg
