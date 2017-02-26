@@ -83,13 +83,17 @@ module Utility
   end
 
   def nutrient_per_measure(food_report, measure_name, nutrient_name)
-    allnutrients = food_report['nutrients']
-    nutrient_object = allnutrients.select { |n| n['name'] == nutrient_name }[0]
-    value = parse_nutrients(measure_name, nutrient_object)
+    nutrient_object = fetch_nutrient_object(food_report, nutrient_name)
+    value = nutrient_value_from_nutrient_object(measure_name, nutrient_object)
     value
   end
 
-  def parse_nutrients(measure_name, nutrient_object)
+  def fetch_nutrient_object(food_report, nutrient_name)
+    allnutrients = food_report['nutrients']
+    allnutrients.select { |n| n['name'] == nutrient_name }[0]
+ end
+
+  def nutrient_value_from_nutrient_object(measure_name, nutrient_object)
     value = 0
     if measure_name == 'g'
       value = handle_default_measure(nutrient_object)
