@@ -1,5 +1,7 @@
 require 'test_helper'
 
+include ApplicationHelper
+
 class FoodTest < ActiveSupport::TestCase
   test 'exercising the name method ' do
     f = foods(:soymilk)
