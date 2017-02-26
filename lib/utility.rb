@@ -67,7 +67,7 @@ module Utility
     value = NOT_AVAILABLE
     begin
       food_report = Usda.caching_find(ndbno)
-      value = process_food_report(value, food_report, measure, nutrient_name)
+      value = process_food_report(food_report, measure, nutrient_name)
       value *= quantity
     rescue NoMethodError => e
       Rails.logger.error "nutrient_per_measure(#{nutrient_name}, #{ndbno}, #{measure}); #{e.class.name} : #{e.message}"
@@ -83,24 +83,24 @@ module Utility
     measure_object
   end
 
-  def process_food_report(value, response, measure, nutrient_name)
+  def process_food_report(response, measure, nutrient_name)
     allnutrients = response['nutrients']
     nutrient = allnutrients.select { |n| n['name'] == nutrient_name }[0]
-    value = parse_nutrients(measure, nutrient, value)
+    value = parse_nutrients(measure, nutrient)
     value
   end
 
-  def parse_nutrients(measure, nutrient, value)
+  def parse_nutrients(measure, nutrient)
     value = 0
     if measure == 'g'
       value = handle_default_measure(nutrient)
     else
-      value = handle_specified_measure(nutrient, measure, value)
+      value = handle_specified_measure(nutrient, measure)
     end
     value
   end
 
-  def handle_specified_measure(nutrient, measure, value)
+  def handle_specified_measure(nutrient, measure)
     allmeasures = nutrient['measures']
     hash = allmeasures.select { |m| m['label'] == measure }[0]
     value = element_from_measure_object('value', hash)
