@@ -55,3 +55,4 @@ gem "econfig", require: "econfig/rails"
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
 gem 'thor', '0.19.1'
+gem 'sorcery'
