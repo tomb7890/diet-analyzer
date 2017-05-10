@@ -7,6 +7,58 @@ module ApplicationHelper
   include Nutrients
   include Goals
 
+  def get_user_date_object
+    d = nil
+    begin
+      userdate  = session[:current_user_date]
+      d = DateTime.iso8601(userdate).to_date
+    rescue ArgumentError => e
+      d = nil
+    end
+    d
+  end
+
+  def display_the_date_helper
+    session[:current_user_date]
+  end
+
+  def today?
+    (DateTime.now).to_date == get_user_date_object
+  end
+
+  def tomorrow_date
+    todays_date = (DateTime.now).to_date
+    todays_date + 1
+  end
+
+  def offset_date(offset)
+    the_date = get_user_date_object
+    return the_date + offset unless the_date.nil?
+  end
+
+  def day_offset_link(offset)
+    result = ''
+    offset_date = offset_date(offset)
+    if offset_date.beginning_of_day.to_i < tomorrow_date.beginning_of_day.to_i
+      offset_date_string = offset_date.to_s
+      result = foods_path(:date => (offset_date_string))
+    end
+    result
+  end
+
+  def previous_day_link
+    day_offset_link(-1)
+  end
+
+  def next_day_link
+    day_offset_link(+1)
+  end
+
+  def food_of_day
+    d = session[:current_user_date]
+    Food.created_on_day(d, current_user)
+  end
+
   def measures_for_food(ndbno)
     response = Usda.caching_find(ndbno)
     array = response['nutrients'].first['measures'].map { |x| x['label'] }
@@ -24,7 +76,8 @@ module ApplicationHelper
 
   def energy_density_data
     hash = {}
-    Food.all.each do |f|
+
+    food_of_day.each do | f |
       if f.name
         key = f.name.split(/\W/).first
         value = energy_density(f.ndbno)
@@ -56,7 +109,7 @@ module ApplicationHelper
 
   def energy_from_macro(tag, standard_conversion_factor, nutrient)
     sum = 0
-    Food.all.each do |f|
+    food_of_day.each do |f |
       begin
         sum = sum + f.macro_energy(tag, standard_conversion_factor, nutrient)
       rescue TypeError => t
@@ -73,7 +126,7 @@ module ApplicationHelper
 
   def total_nutrient_amount(n = nil)
     sum = 0
-    Food.all.each do |f|
+    food_of_day.each do |f |
       if f.amount.class != String
         result = nutrient_per_serving(n,  f.ndbno, f.measure, f.amount)
         if result.class == Float

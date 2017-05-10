@@ -3,7 +3,16 @@ class FoodsController < ApplicationController
   include ApplicationHelper
 
   def index
-    @foods = Food.order(:id).all
+    day = DateTime.now.to_date.to_s
+    if params.include? 'date'
+      begin
+        day = DateTime.iso8601(params['date'])
+        session[:current_user_date] = day.to_date.to_s
+      rescue ArgumentError => e
+        pass
+      end
+    end
+    @foods = Food.created_on_day(day.to_date.to_s, current_user)
   end
 
   def new
@@ -90,6 +99,6 @@ class FoodsController < ApplicationController
   private
 
   def food_params
-    params.require(:food).permit(:ndbno, :amount, :measure)
+    params.require(:food).permit(:ndbno, :amount, :measure).merge(user_id: current_user.id)
   end
 end

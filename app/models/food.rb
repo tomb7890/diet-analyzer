@@ -3,6 +3,13 @@ class Food < ActiveRecord::Base
   include Utility
   include ApplicationHelper
 
+  scope :created_on_day, lambda {|datestring, u|
+    d = DateTime.iso8601(datestring).to_date
+    where(user_id: u).
+      where("created_at >= ? AND created_at <= ?",
+            d.beginning_of_day, d.end_of_day)
+  }
+
   def calories
     nutrient(ENERC_KCAL)
   end
@@ -35,7 +42,7 @@ class Food < ActiveRecord::Base
   end
 
   def nutrient(nutrient_name)
-     nutrient_per_serving(nutrient_name, ndbno, measure, amount )
+    nutrient_per_serving(nutrient_name, ndbno, measure, amount )
   end
 
   def name

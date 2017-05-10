@@ -1,4 +1,19 @@
-=link_to "Add Serving" , "/foods/new"
+%h2= "Foods/index.html"
+
+=link_to "Previous Day", previous_day_link
+
+
+- if next_day_link.empty?
+  =p "Next day"
+- else
+  =link_to "Next Day", next_day_link
+
+
+%h4= display_the_date_helper
+
+- if today?
+  = link_to "Add Serving" , new_food_path
+
 
 %table{:class => "table table-condensed" }
   %thead
@@ -11,7 +26,10 @@
     - @foods.each do |f|
       %tr
         %td
-          %li= link_to f.name, edit_food_path(f), title: "Edit entry for #{f.name}"
+          - if next_day_link.empty?
+            %li= link_to f.name, edit_food_path(f, f), title: "Edit entry for #{f.name}"
+          - else
+            %li= link_to f.name, food_path(f, f), title: "View entry for #{f.name}"
         %td= "#{f.amount}"
         %td= "#{f.measure}"
         %td= "#{formatit(f.calories)}"
