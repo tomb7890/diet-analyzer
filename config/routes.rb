@@ -9,6 +9,13 @@ Rails.application.routes.draw do
   root to: 'foods#index'
   resources :foods
 
+  get "logout" => "sessions#destroy"
+  get "login" => "sessions#new"
+  get "signup" => "users#new"
+
+  resources :users
+  resources :sessions
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
