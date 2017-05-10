@@ -1,4 +1,30 @@
-%header.navbar.navbar-default{:role => "navigation"}
-  .navbar-inner
-    .container
-      #logo.navbar-brand= link_to "Diet Analyzer", root_path
+%nav.navbar.navbar-inverse
+  .container-fluid
+    .navbar-header
+      %a.navbar-brand{:href => "#"} Diet Analyzer
+    %ul.nav.navbar-nav
+      %li.active
+        %a{:href => "#"} Home
+      %li
+        %a{:href => "#"} Page 1
+      %li
+        %a{:href => "#"} Page 2
+    %ul.nav.navbar-nav.navbar-right
+      - if current_user
+        %li
+          %a{:href => logout_path}
+            %span.glyphicon.glyphicon-user
+              = current_user.email
+        %li
+          %a{:href => logout_path}
+            %span.glyphicon.glyphicon-log-in
+            Logout
+      - else
+        %li
+          %a{:href => signup_path}
+            %span.glyphicon.glyphicon-user
+            Sign Up
+        %li
+          %a{:href => login_path}
+            %span.glyphicon.glyphicon-log-in
+            Login
