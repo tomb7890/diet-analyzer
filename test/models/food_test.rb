@@ -33,6 +33,7 @@ class FoodTest < ActiveSupport::TestCase
   end
 
   test 'computation of proportion of total fat energy in diet' do
+    @foods = days(:one).foods
     ef = energy_from_fat
     tt = total_energy
     expected = 13
@@ -65,6 +66,7 @@ class FoodTest < ActiveSupport::TestCase
   end
 
   test 'nominal operation of dietary goals' do
+    @foods = days(:one).foods
     goal_dietaryfat
     goal_transfat
     goal_satfat

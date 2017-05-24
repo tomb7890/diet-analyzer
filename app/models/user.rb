@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+
+  has_many :days, dependent: :destroy
+  has_many :foods, through: :days
+
   authenticates_with_sorcery!
 
   validates_confirmation_of :password

@@ -2,25 +2,13 @@ class FoodsController < ApplicationController
 
   include ApplicationHelper
 
-  def index
-    day = DateTime.now.to_date.to_s
-    if params.include? 'date'
-      begin
-        day = DateTime.iso8601(params['date'])
-        session[:current_user_date] = day.to_date.to_s
-      rescue ArgumentError => e
-        pass
-      end
-    end
-    @foods = Food.created_on_day(day.to_date.to_s, current_user)
-  end
-
   def new
     @food = Food.new
     if params[:search]
       @items = caching_search(params[:search])
       @items = list_for_select_options(@items)
     end
+    @day = current_user.days.where(id: params[:day_id]).first
   end
 
   def show
@@ -28,23 +16,30 @@ class FoodsController < ApplicationController
   end
 
   def create
-    @food = Food.create(food_params)
+    day_id = params[:day_id]
+    @day = Day.find(day_id)
+    @food = @day.foods.build(food_params)
+
     if @food.save
-      redirect_to foods_url
+      redirect_to day_path(@day)
     else
       render :new
     end
   end
 
   def edit
-    @food = Food.find(params[:id])
+    food_id = params[:id]
+    @food = Food.find(food_id)
+    day_id = params[:day_id]
+    @day = Day.find(day_id)
   end
 
   def update
+    @day = Day.find(params[:day_id])
     @food = Food.find(params[:id])
 
     if @food.update_attributes(food_params)
-      redirect_to foods_url
+      redirect_to day_path(@day)
     else
       render :edit
     end
@@ -55,7 +50,6 @@ class FoodsController < ApplicationController
       @measures = measures_for_food(params[:ndbno])
 
       current_food = Food.find(params[:id])
-
       @nutrients = nutrients_for_food_panel(current_food.ndbno,
                                             current_food.amount,
                                             current_food.measure,
@@ -76,9 +70,10 @@ class FoodsController < ApplicationController
   end
 
   def destroy
+    @day = Day.find(params[:day_id])
     @food = Food.find(params[:id])
     @food.destroy
-    redirect_to foods_url
+    redirect_to day_path(@day)
   end
 
   def update_nutrients

@@ -11,7 +11,9 @@ module Goals
     amount = 0.0
     collection.each do |f|
       x = fresh_fruit_or_veg(f)
-      amount = x + amount
+      if x.class != String
+        amount = amount + x
+      end
     end
     amount
   end

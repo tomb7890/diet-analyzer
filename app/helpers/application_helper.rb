@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'nutrients'
 
 module ApplicationHelper
@@ -8,18 +9,15 @@ module ApplicationHelper
   include Goals
 
   def get_user_date_object
-    d = nil
-    begin
-      userdate  = session[:current_user_date]
-      d = DateTime.iso8601(userdate).to_date
-    rescue ArgumentError => e
-      d = nil
+    if @day.nil?
+      return ''
     end
-    d
+    @day.date
   end
 
   def display_the_date_helper
-    session[:current_user_date]
+    day = Day.find(params[:id])
+    day.date.strftime("%A, %b %e %Y")
   end
 
   def today?
@@ -37,17 +35,24 @@ module ApplicationHelper
   end
 
   def day_offset_link(offset)
-    result = ''
-    offset_date = offset_date(offset)
-    if offset_date.beginning_of_day.to_i < tomorrow_date.beginning_of_day.to_i
-      offset_date_string = offset_date.to_s
-      result = foods_path(:date => (offset_date_string))
+    result = nil
+    od = offset_date(offset)
+    if od.beginning_of_day.to_i < tomorrow_date.beginning_of_day.to_i
+      date = Day.find_by(date: od, user: current_user)
+      if date
+        result = day_path(date.id)
+      end
+      result
     end
-    result
   end
 
   def previous_day_link
     day_offset_link(-1)
+  end
+
+  def previous_day_as_string
+    day_before = @day.date - 1
+    day_before.to_s
   end
 
   def next_day_link
@@ -55,8 +60,7 @@ module ApplicationHelper
   end
 
   def food_of_day
-    d = session[:current_user_date]
-    Food.created_on_day(d, current_user)
+    @foods
   end
 
   def measures_for_food(ndbno)
@@ -109,7 +113,7 @@ module ApplicationHelper
 
   def energy_from_macro(tag, standard_conversion_factor, nutrient)
     sum = 0
-    food_of_day.each do |f |
+    food_of_day.each do |f|
       begin
         sum = sum + f.macro_energy(tag, standard_conversion_factor, nutrient)
       rescue TypeError => t

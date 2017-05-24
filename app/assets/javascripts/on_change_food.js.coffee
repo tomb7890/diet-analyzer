@@ -6,7 +6,7 @@ $ ->
 
         reset_nutrients()
 
-        $.ajax 'update_measures',
+        $.ajax '/callback_handler_1',  # '/foods/update_measures',
             type: 'GET'
             dataType: 'json'
             data: {
@@ -19,10 +19,11 @@ $ ->
 
 
 on_food_edit = ->
-    pattern = /foods.*edit/
+    pattern = /.*food.*edit.*/
     url =($(location).attr('href'))
     if (url.match(pattern))
-        $.ajax 'update_measures',
+        # $.ajax '/foods/update_measures',
+        $.ajax 'callback_handler_2',
             type: 'GET'
             dataType: 'json'
             data: {
@@ -56,20 +57,15 @@ reset_nutrients = (data) ->
 
 
 set_nutrients = (data) ->
-    $('#Energy').text(data.nutrients['Energy'])
-    $('#Water').text(data.nutrients['Water'])
-    $('#Carbs').text(data.nutrients['Carbs'])
-    $('#Fiber').text(data.nutrients['Fiber'])
-    $('#Protein').text(data.nutrients['Protein'])
-    $('#Fat').text(data.nutrients['Fat'])
+    $('#Energy').  text(data.nutrients['Energy'])
+    $('#Water').   text(data.nutrients['Water'])
+    $('#Carbs').   text(data.nutrients['Carbs'])
+    $('#Fiber').   text(data.nutrients['Fiber'])
+    $('#Protein'). text(data.nutrients['Protein'])
+    $('#Fat').     text(data.nutrients['Fat'])
 
-
-# Dynamically update the nutrient values upon change in food measure
-$ ->
-    $(document).on 'change', '#food_measure', (evt) ->
-        reset_nutrients()
-
-        $.ajax 'update_nutrients',
+ajax_wrapper = ->
+        $.ajax '/callback_handler_3',
             type: 'GET'
             dataType: 'json'
             data: {
@@ -81,23 +77,16 @@ $ ->
                 console.log("AJAX Error: #{textStatus}")
             success: (data, textStatus, jqXHR) ->
                 set_nutrients(data)
-                console.log("Dynamic select OK!")
+
+# Dynamically update the nutrient values upon change in food measure
+$ ->
+    $(document).on 'change', '#food_measure', (evt) ->
+        reset_nutrients()
+        ajax_wrapper()
 
 
 # Dynamically update the nutrient values upon change in food amount
 $ ->
     $(document).on 'change', '#food_amount', (evt) ->
         reset_nutrients()
-        $.ajax 'update_nutrients',
-            type: 'GET'
-            dataType: 'json'
-            data: {
-                ndbno: $("#food_ndbno").val()
-                measure: $("#food_measure").val()
-                amount: $("#food_amount").val()
-            }
-            error: (jqXHR, textStatus, errorThrown) ->
-                console.log("AJAX on_change_amount  Error: #{textStatus}")
-            success: (data, textStatus, jqXHR) ->
-                set_nutrients(data)
-                console.log("AJAX on_change_amount  select OK!")
+        ajax_wrapper()

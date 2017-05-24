@@ -1,14 +1,9 @@
 class Food < ActiveRecord::Base
 
+  belongs_to :day
+
   include Utility
   include ApplicationHelper
-
-  scope :created_on_day, lambda {|datestring, u|
-    d = DateTime.iso8601(datestring).to_date
-    where(user_id: u).
-      where("created_at >= ? AND created_at <= ?",
-            d.beginning_of_day, d.end_of_day)
-  }
 
   def calories
     nutrient(ENERC_KCAL)
@@ -16,7 +11,7 @@ class Food < ActiveRecord::Base
 
   def nutrients_by_category(x)
     results = nil
-    response = caching_find(ndbno)
+    response = Usda.caching_find(ndbno)
     if not response.nil?
       nutrients = response['nutrients']
       results = nutrients.select {|hash|hash['group'] == x }

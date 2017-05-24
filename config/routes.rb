@@ -1,17 +1,20 @@
 Rails.application.routes.draw do
 
-  get 'foods/update_measures', as: 'update_measures'
-  get 'foods/update_nutrients', as: 'update_nutrients'
 
-  get 'foods/:id/update_measures' => 'foods#update_measures'
-  get 'foods/:id/update_nutrients' => 'foods#update_nutrients'
+  root to: 'days#index'
 
-  root to: 'foods#index'
-  resources :foods
+  resources :days do
+    resources :foods
+  end
 
-  get "logout" => "sessions#destroy"
-  get "login" => "sessions#new"
-  get "signup" => "users#new"
+
+  get '/callback_handler_1' => 'foods#update_measures'
+  get '/days/:day_id/foods/:id/callback_handler_2' => 'foods#update_measures'
+  get '/callback_handler_3' => 'foods#update_nutrients'
+
+  get 'logout' => 'sessions#destroy'
+  get 'login' => 'sessions#new'
+  get 'signup' => 'users#new'
 
   resources :users
   resources :sessions

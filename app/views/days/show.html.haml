@@ -1,16 +1,18 @@
-=link_to "Previous Day", previous_day_link
+- if not previous_day_link.blank?
+  =link_to "Previous Day", previous_day_link
+- else
+  =link_to("Previous Day", days_path(date: previous_day_as_string ), method: :post)
 
 
-- if next_day_link.empty?
+- if next_day_link.blank?
   %p Next day
 - else
   =link_to "Next Day", next_day_link
 
-
 %h4= display_the_date_helper
 
-- if today?
-  = link_to "Add Serving" , new_food_path
+
+= link_to "Add Serving" , new_day_food_path(@day)
 
 
 %table{:class => "table table-condensed" }
@@ -24,10 +26,8 @@
     - @foods.each do |f|
       %tr
         %td
-          - if next_day_link.empty?
-            %li= link_to f.name, edit_food_path(f, f), title: "Edit entry for #{f.name}"
-          - else
-            %li= link_to f.name, food_path(f, f), title: "View entry for #{f.name}"
+          %li= link_to f.name, edit_day_food_path(@day, f), title: "Edit entry for #{f.name}"
+
         %td= "#{f.amount}"
         %td= "#{f.measure}"
         %td= "#{formatit(f.calories)}"

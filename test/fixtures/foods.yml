@@ -4,18 +4,22 @@ soymilk:
   amount: 1
   measure: "cup"
   ndbno: 16235
+  day: one
 
 raisinbran:
   amount: 1
   measure: "cup (1 NLEA serving)"
   ndbno: 8061
+  day: one
 
 blueberries:
   amount: 1
   measure: "cup"
   ndbno: 9050
+  day: one
 
 fireweed:
   amount: 100
   measure: "cup, chopped"
   ndbno: 35038
+  day: one
