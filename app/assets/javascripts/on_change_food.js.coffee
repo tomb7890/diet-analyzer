@@ -6,7 +6,7 @@ $ ->
 
         reset_nutrients()
 
-        $.ajax '/callback_handler_1',  # '/foods/update_measures',
+        $.ajax '/update_measures',
             type: 'GET'
             dataType: 'json'
             data: {
@@ -19,14 +19,15 @@ $ ->
 
 
 on_food_edit = ->
-    pattern = /.*food.*edit.*/
+    pattern = /.*foods\/(\d+)\/edit.*/
     url =($(location).attr('href'))
-    if (url.match(pattern))
-        # $.ajax '/foods/update_measures',
-        $.ajax 'callback_handler_2',
+    results =  (url.match(pattern))
+    if results
+        $.ajax '/update_measures',
             type: 'GET'
             dataType: 'json'
             data: {
+                id: results[1]
                 ndbno: $("#food_ndbno").val()
                 amount: $("#food_amount").val()
             }
@@ -65,7 +66,7 @@ set_nutrients = (data) ->
     $('#Fat').     text(data.nutrients['Fat'])
 
 ajax_wrapper = ->
-        $.ajax '/callback_handler_3',
+        $.ajax '/update_nutrients',
             type: 'GET'
             dataType: 'json'
             data: {

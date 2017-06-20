@@ -8,9 +8,8 @@ Rails.application.routes.draw do
   end
 
 
-  get '/callback_handler_1' => 'foods#update_measures'
-  get '/days/:day_id/foods/:id/callback_handler_2' => 'foods#update_measures'
-  get '/callback_handler_3' => 'foods#update_nutrients'
+  get '/update_measures' => 'foods#update_measures'
+  get '/update_nutrients' => 'foods#update_nutrients'
 
   get 'logout' => 'sessions#destroy'
   get 'login' => 'sessions#new'
