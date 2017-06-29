@@ -1,0 +1,20 @@
+%h1
+  Diet Analyzer
+%p
+  Diet-Analyzer is a web application for analyzing and tracking
+  your nutrition data.
+Foods are easily found and added by using the search tool to access
+the USDA database in real time. Then, detailed nutrition is presented
+through various tabs corresponding to standard nutrient categories.
+%p
+  Calorie reduced diets require a lot of information to perform
+  optimally. In order to restrict caloric intake, but remain healthy,
+  users of the diet must track their vitamins, minerals, and protein
+  intakes with great care.
+%p
+
+
+- if not current_user
+  %p
+    The screen shot below shows an example of its use. Click to sign up and begin using Diet-Analyzer.
+  = link_to image_tag(asset_path('/assets/sample-diet-screen-capture.png')), about_path

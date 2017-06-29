@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get '/update_measures' => 'foods#update_measures'
   get '/update_nutrients' => 'foods#update_nutrients'
 
+  get '/about' => 'static_pages#about'
+
   get 'logout' => 'sessions#destroy'
   get 'login' => 'sessions#new'
   get 'signup' => 'users#new'
