@@ -14,6 +14,13 @@
           %a{:href => logout_path}
             %span.glyphicon.glyphicon-log-in
             Logout
+
+        %li
+          %a{:href => about_path}
+            %span.glyphicon.glyphicon-log-in
+            About
+
+
       - else
         %li
           %a{:href => signup_path}
@@ -23,3 +30,7 @@
           %a{:href => login_path}
             %span.glyphicon.glyphicon-log-in
             Login
+        %li
+          %a{:href => about_path}
+            %span.glyphicon.glyphicon-log-in
+            About
