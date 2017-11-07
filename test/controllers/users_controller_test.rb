@@ -13,11 +13,10 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "route of ajax handler #2" do
-    food_id = '1234'
-    day_id = '5678'
-    assert_recognizes({controller: 'foods', action: 'update_measures',
-                       id: food_id, day_id: day_id},
-                      "/days/#{day_id}/foods/#{food_id}/callback_handler_2"
-                     )
+    assert_recognizes(
+      {controller: 'foods',
+       action: 'update_measures'},
+      {path: '/update_measures'})
+                     
   end
 end
