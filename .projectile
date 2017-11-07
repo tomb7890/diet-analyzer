@@ -1,0 +1,10 @@
++/app
+-/bin
+-/config
+-/db
++/lib
+-/log
+-/public
++/test
+-/tmp
+-/vendor
