@@ -9,6 +9,6 @@
   %div{:class =>'col-sm-4'}
     = render :partial => "text_field_tag", locals: { nutrient: "Protein", unit: 'g' }
   %div{:class =>'col-sm-4'}
-    = render :partial => "text_field_tag", locals: { nutrient: "Carbs", display: "Carbohydrate", unit: 'g' }
+    = render :partial => "text_field_tag", locals: { nutrient: "Carbs", special_nutrient_name: "Carbohydrate", unit: 'g' }
   %div{:class =>'col-sm-4'}
     = render :partial => "text_field_tag", locals: { nutrient: "Fat" , unit: 'g'}
