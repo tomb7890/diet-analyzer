@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', ' ~> 4.2'
-gem 'pg', '0.21.0'
+gem 'pg', '~> 0.20.0'
 
 # Support heroku
 gem 'rails_12factor'
