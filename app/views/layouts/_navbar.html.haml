@@ -7,30 +7,30 @@
     %ul.nav.navbar-nav.navbar-right
       - if current_user
         %li
-          %a{:href => logout_path}
+          %a{:href => '#'}
             %span.glyphicon.glyphicon-user
               = current_user.email
         %li
-          %a{:href => logout_path}
+          %a{:href => '#'}
             %span.glyphicon.glyphicon-log-in
             Logout
 
         %li
-          %a{:href => about_path}
+          %a{:href => '#'}
             %span.glyphicon.glyphicon-log-in
             About
 
 
       - else
         %li
-          %a{:href => signup_path}
+          %a{:href => '#'}
             %span.glyphicon.glyphicon-user
             Sign Up
         %li
-          %a{:href => login_path}
+          %a{:href => '#'}
             %span.glyphicon.glyphicon-log-in
             Login
         %li
-          %a{:href => about_path}
+          %a{:href => '#'}
             %span.glyphicon.glyphicon-log-in
             About

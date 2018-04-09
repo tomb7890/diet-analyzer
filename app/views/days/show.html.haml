@@ -1,13 +1,13 @@
 - if not previous_day_link.blank?
-  =link_to "Previous Day", previous_day_link
+  =link_to "Previous Day", '#'
 - else
-  =link_to("Previous Day", days_path(date: previous_day_as_string ), method: :post)
+  =link_to("Previous Day", '#')
 
 
 - if next_day_link.blank?
   %p Next day
 - else
-  =link_to "Next Day", next_day_link
+  =link_to "Next Day", '#'
 
 %h4= display_the_date_helper
 
