@@ -8,7 +8,7 @@ class FoodsController < ApplicationController
       @items = caching_search(params[:search])
       @items = list_for_select_options(@items)
     end
-    @day = current_user.days.where(id: params[:day_id]).first
+    @day = get_current_user.days.where(id: params[:day_id]).first
   end
 
   def show
@@ -92,8 +92,8 @@ class FoodsController < ApplicationController
   end
 
   private
-
+  
   def food_params
-    params.require(:food).permit(:ndbno, :amount, :measure).merge(user_id: current_user.id)
+    params.require(:food).permit(:ndbno, :amount, :measure).merge(user_id: get_current_user.id)
   end
 end

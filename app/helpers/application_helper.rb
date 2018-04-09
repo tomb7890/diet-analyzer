@@ -8,6 +8,16 @@ module ApplicationHelper
   include Nutrients
   include Goals
 
+  def get_current_user
+    u = nil
+    if nil
+      u = current_user
+    else
+      u = User.last
+    end
+    u
+  end
+
   def get_user_date_object
     if @day.nil?
       return ''
@@ -16,8 +26,7 @@ module ApplicationHelper
   end
 
   def display_the_date_helper
-    day = Day.find(params[:id])
-    day.date.strftime("%A, %b %e %Y")
+    (DateTime.now).to_date.strftime("%A, %b %e %Y")
   end
 
   def today?
