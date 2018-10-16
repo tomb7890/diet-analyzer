@@ -9,32 +9,8 @@ class Usda
     ENV['USDA_NDL_API_KEY']
   end
 
-  def self.id_or_ndbno(hash)
-    if hash.key?('ndbno')
-      hash['ndbno']
-    elsif hash.key?('id')
-      hash['id']
-    end
-  end
-
-  def self.subset(f, x)
-    f['nutrients'].select {|hash|hash['group'] == x }
-  end
-
-  def self.all
-    options = {
-      'api_key' => api_key,
-      'format' => 'json',
-      'lt' => 'f',
-      'sort' => 'n',
-      'total' => '4',
-      'offset' => '0'
-    }
-    get('/ndb/list',
-        :query => options)['list']['item']
-  end
-
   def self.find(food_id)
+    puts "Usda.find" 
     food = nil
     food_id_rjust = food_id.to_s.rjust(5, '0')
     options = {
@@ -57,12 +33,14 @@ class Usda
   end
 
   def self.caching_find(ndbno)
+    puts "caching_find" 
     Rails.cache.fetch(ndbno, expires_in: 28.days) do
       response = Usda.find(ndbno)
     end
   end
 
   def self.search(string)
+    puts "search" 
     item = nil
 
     options = {
