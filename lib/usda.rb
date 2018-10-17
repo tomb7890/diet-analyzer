@@ -10,7 +10,6 @@ class Usda
   end
 
   def self.find(food_id)
-    puts "Usda.find" 
     food = nil
     food_id_rjust = food_id.to_s.rjust(5, '0')
     options = {
@@ -33,14 +32,12 @@ class Usda
   end
 
   def self.caching_find(ndbno)
-    puts "caching_find" 
     Rails.cache.fetch(ndbno, expires_in: 28.days) do
       response = Usda.find(ndbno)
     end
   end
 
   def self.search(string)
-    puts "search" 
     item = nil
 
     options = {
