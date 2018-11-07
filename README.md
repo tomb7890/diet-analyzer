@@ -1,5 +1,6 @@
 Diet-Analyzer
 ==============================
+[![Build Status](https://travis-ci.org/tomb7890/diet-analyzer.svg?branch=master)](https://travis-ci.org/tomb7890/diet-analyzer) 
 
  Diet-Analyzer is a Rails web application for analyzing and tracking nutrition data.
 Foods are easily found and added by using the "Add serving" search tool. A dynamic nutrition preview is presented as search results are browsed; full nutrition information is shown in the nutrition tabs once a food is saved as part of daily food log.
