@@ -3,37 +3,40 @@ require 'test_helper'
 include ApplicationHelper
 
 class FoodTest < ActiveSupport::TestCase
+  include FactoryBot::Syntax::Methods
+  
   test 'exercising the name method ' do
-    f = foods(:soymilk)
-    assert f.name == 'SILK Plain, soymilk'
+    food = build(:soymilk)
+    assert food.name == 'SILK Plain, soymilk'
   end
 
   test 'exercise the calories method' do
-    g = foods(:blueberries)
-    actual = g.calories
+    food = build(:blueberries)
+    actual = food.calories
     expected = 84.36
-    assert_in_delta actual, expected, 2
+    assert_in_delta actual, expected, 2.0
   end
 
   # Another test of the calories method
   test 'second exercise of the calories method' do
-    g = foods(:raisinbran)
-    actual = g.calories
+    food = build(:raisinbran)
+    actual = food.calories
     expected = 191
     assert_in_delta actual, expected, 2
   end
 
   test 'computation of proportion of fat energy in blueberries ' do
-    f = foods(:blueberries)
-    fe = f.fat_energy
-    tt = f.calories
+    food = build(:blueberries)
+    fe = food.fat_energy
+    tt = food.calories
     actual = (100.0 * fe / tt)
     expected = 5
     assert_in_delta expected, actual, 1
   end
 
   test 'computation of proportion of total fat energy in diet' do
-    @foods = days(:one).foods
+    day = create(:day_with_food)
+    @foods = day.foods
     ef = energy_from_fat
     tt = total_energy
     expected = 13
@@ -59,14 +62,15 @@ class FoodTest < ActiveSupport::TestCase
 
   test 'dietary fat goal when criteria just failed' do
     total_energy = 2000.0
-    energy_from_fat = (total_energy * 0.30 ) + 1
+    energy_from_fat = (total_energy * 0.30) + 1
     actual = goal_dietaryfat_helper(energy_from_fat, total_energy)
     expected = false
     assert_equal expected, actual
   end
 
   test 'nominal operation of dietary goals' do
-    @foods = days(:one).foods
+    day = create(:day_with_food)
+    @foods = day.foods
     goal_dietaryfat
     goal_transfat
     goal_satfat
