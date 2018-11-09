@@ -77,7 +77,9 @@ class FoodTest < ActiveSupport::TestCase
   end
 
   test 'computation of total fruit_and_veg' do
-    amount = fruit_and_veg_goal(Food.all)
+    day = create(:day_with_food)
+    @foods = day.foods
+    amount = fruit_and_veg_goal(@foods)
     assert_equal 148, amount
   end
 
