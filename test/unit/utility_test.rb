@@ -1,23 +1,24 @@
 require 'test_helper'
 
-
 class UtilityTest < ActiveSupport::TestCase
+  include FactoryBot::Syntax::Methods
 
   include Utility
   include Nutrients
   include Goals
 
-  STRAWBERRIES_NDBNO = '09316'
-  TURKEY_NDBNO = "05200"
-  BOGUS_NDBNO = 818181818181818
-  FIREWEED_LOCAL_RAW_HONEY = 45104569
+  STRAWBERRIES_NDBNO = '09316'.freeze
+  TURKEY_NDBNO = '05200'.freeze
+  BOGUS_NDBNO = 818_181_818_181_818
+  FIREWEED_LOCAL_RAW_HONEY = 45_104_569
 
-  BIGMAC_NDBNO='21350'
-  POTATO_RUSSET_NDBNO = '11674'
+  BIGMAC_NDBNO = '21350'.freeze
+  POTATO_RUSSET_NDBNO = '11674'.freeze
 
   test 'test nutrient  method on food with bogus nutrient ' do
-    f = Food.first
-    d = f.nutrient(0101010101)
+    day = create(:day_with_food)
+    food = day.foods.first
+    d = food.nutrient(0o101010101)
     assert_equal d, NOT_AVAILABLE
   end
 
@@ -75,13 +76,13 @@ class UtilityTest < ActiveSupport::TestCase
   end
 
   test 'correctly handle nutrient qty attribute' do
-    result = nutrient_per_serving(CHOLE, TURKEY_NDBNO, "oz", 1)
+    result = nutrient_per_serving(CHOLE, TURKEY_NDBNO, 'oz', 1)
     assert_equal 29, result.to_i
   end
 
   test 'determine eqv weight in grams of food serving ' do
-    squash_winter_butternut_cooked_baked_without_salt = 11486
-    measure = "cup, cubes"
+    squash_winter_butternut_cooked_baked_without_salt = 11_486
+    measure = 'cup, cubes'
 
     expected = 205
     actual = gram_equivalent(squash_winter_butternut_cooked_baked_without_salt,
@@ -91,7 +92,7 @@ class UtilityTest < ActiveSupport::TestCase
   end
 
   test 'determine eqv weight in grams of potato' do
-    potato_baked_russet = 11356
+    potato_baked_russet = 11_356
     measure = "potato large (3\" to 4-1\/4\" dia."
     expected = 299
     actual = gram_equivalent(potato_baked_russet, measure)
@@ -116,7 +117,7 @@ class UtilityTest < ActiveSupport::TestCase
   test 'another test, varying qty parameters' do
     turkey = '05200'
     measure = 'turkey, bone removed'
-    expected = 808*2
+    expected = 808 * 2
     actual = gram_equivalent(turkey, measure).to_i
     assert_equal expected, actual
   end
@@ -129,7 +130,7 @@ class UtilityTest < ActiveSupport::TestCase
 
   test 'energy density of dry kasha is' do
     expected = 1569
-    dry_kasha_ndbno = 20009
+    dry_kasha_ndbno = 20_009
     actual = energy_density(dry_kasha_ndbno).to_i
     assert_equal expected, actual
   end
@@ -160,7 +161,4 @@ class UtilityTest < ActiveSupport::TestCase
     actual = gram_equivalent(STRAWBERRIES_NDBNO, measure)
     assert_equal expected, actual
   end
-
-
-
 end
