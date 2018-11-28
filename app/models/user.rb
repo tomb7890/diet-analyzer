@@ -1,5 +1,10 @@
 class User < ActiveRecord::Base
 
+  GENDER_MALE = 'male'
+  GENDER_FEMALE = 'female'
+
+
+
   has_many :days, dependent: :destroy
   has_many :foods, through: :days
 
