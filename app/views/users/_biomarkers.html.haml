@@ -1,0 +1,46 @@
+
+.form-group
+  = radio_button_tag :gender, 'male'  , class: "form-control"
+  = label_tag :gender, 'Male', :value => 'male' 
+  = radio_button_tag :gender, 'female' , class: "form-control"
+  = label_tag :gender, 'Female', :value => 'female' 
+  = f.hidden_field :gender
+
+.form-group
+  %select{class: "form-control", id: "gender_extra"} 
+    %option{class: "form-control", :value => "Normal"} Normal 
+    %option{class: "form-control", :value => "Pregnant"} Pregnant
+    %option{class: "form-control", :value => "Lactating"} Lactating
+
+.form-group
+  = f.number_field :age, class: "form-control", min: 0
+  = f.label :age 
+
+.form-group
+  = number_field_tag :feet_select, nil, class: "form-control", min: 1, max: 8 
+  = label_tag :feet_select,  "Feet"
+
+.form-group
+  = number_field_tag :inches_select, nil, class: "form-control", min: 0, max: 11
+  = label_tag :inches_select, "Inches, or"
+
+.form-group
+  = f.number_field :heightcm, class: "form-control", min: 0
+  = f.label :heightcm, "Centimeters"
+
+.form-group
+  = number_field_tag :weightlb, nil, class: "form-control", min: 0
+  = label_tag :weightlb,  'Pounds, or'
+
+.form-group
+  = f.number_field :weightkg, class: "form-control", min: 0
+  = f.label :weightkg, "Kilograms"
+
+
+
+
+
+
+
+
+

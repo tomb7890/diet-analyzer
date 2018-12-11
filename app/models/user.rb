@@ -2,9 +2,9 @@ class User < ActiveRecord::Base
 
   GENDER_MALE = 'male'
   GENDER_FEMALE = 'female'
-
-
-
+  GENDER_LACT = 'female_lact'
+  GENDER_PREG = 'female_preg'
+  
   has_many :days, dependent: :destroy
   has_many :foods, through: :days
 

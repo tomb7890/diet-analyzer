@@ -1,0 +1,5 @@
+.container
+  = form_for @user do |f|
+    = render partial: 'authent', locals: { user: @user, f: f }
+    = render partial: 'biomarkers', locals: { user: @user, f: f } 
+    .actions= f.submit
