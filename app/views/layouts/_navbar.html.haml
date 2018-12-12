@@ -1,36 +1,49 @@
-%nav.navbar.navbar-inverse
-  .container-fluid
+%nav#navbar1.navbar.navbar-inverse{:role => "navigation"}
+  / Brand and toggle get grouped for better mobile display
+  .container
     .navbar-header
-      %a.navbar-brand{:href => root_path} Diet Analyzer
-    %ul.nav.navbar-nav
-      %li.active
-    %ul.nav.navbar-nav.navbar-right
-      - if current_user
-        %li
-          %a{:href => logout_path}
-            %span.glyphicon.glyphicon-user
+      %button.navbar-toggle{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+
+      %a.navbar-brand{:href => root_path } Diet Analyzer
+    / Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+      %ul.nav.navbar-nav.navbar-right
+        - if current_user
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
               = current_user.email
-        %li
-          %a{:href => logout_path}
-            %span.glyphicon.glyphicon-log-in
-            Logout
+              %b.caret
+            %ul.dropdown-menu
 
-        %li
-          %a{:href => about_path}
-            %span.glyphicon.glyphicon-log-in
-            About
+              %li
+                %a{:href => edit_user_path(current_user) } Account Settings
+              %li
+                %a{:href => about_path} About Diet-Analyzer
+                %li.divider
+              %li
+                %a{:href => logout_path } Log out
 
-
-      - else
-        %li
-          %a{:href => signup_path}
-            %span.glyphicon.glyphicon-user
-            Sign Up
-        %li
-          %a{:href => login_path}
-            %span.glyphicon.glyphicon-log-in
-            Login
-        %li
-          %a{:href => about_path}
-            %span.glyphicon.glyphicon-log-in
-            About
+        - else
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              = "Diet Analyzer"
+              %b.caret
+            %ul.dropdown-menu
+              %li
+                %a{:href => signup_path}
+                  %span.glyphicon.glyphicon-user
+                  Sign Up
+              %li
+                %a{:href => login_path}
+                  %span.glyphicon.glyphicon-log-in
+                  Login
+              %li
+                %a{:href => about_path}
+                  %span.glyphicon.glyphicon-log-in
+                  About
+    / /.navbar-collapse
