@@ -11,16 +11,16 @@
       %tbody
         %tr
           %td= "Calories"
-          %td= daily_helper(Nutrients::ENERC_KCAL)
+          %td= daily_helper(Nutrients::ENERC_KCAL, @foods )
         %tr
           %td= "Protein"
-          %td= daily_helper(Nutrients::PROCNT)
+          %td= daily_helper(Nutrients::PROCNT, @foods )
         %tr
           %td= "Carbs"
-          %td= daily_helper(Nutrients::CHOCDF)
+          %td= daily_helper(Nutrients::CHOCDF, @foods )
         %tr
           %td= "Fat"
-          %td= daily_helper(Nutrients::FAT)
+          %td= daily_helper(Nutrients::FAT, @foods )
         %tr
           %td= "Fiber"
-          %td= daily_helper(Nutrients::FIBTG)
+          %td= daily_helper(Nutrients::FIBTG, @foods )
