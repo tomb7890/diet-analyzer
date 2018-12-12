@@ -1,12 +1,13 @@
 = form_tag sessions_path do
-  .field
-    = label_tag :email
-    = text_field_tag :email, params[:email]
-  .field
-    = label_tag :password
-    = password_field_tag :password
-  .field
-    = check_box_tag :remember_me, 1, params[:remember_me]
-    = label_tag :remember_me
-  .actions
-    = submit_tag "Log in"
+
+  .form-group
+    %label{for: "email", name: "email"} Email address:
+    %input#email.form-control{type:  "email", name: "email"}
+  .form-group
+    %label{:for => "pwd"} Password:
+    %input#pwd.form-control{name:'password', type: "password" }
+  .checkbox
+    %label
+      %input{name: "remember_me", type:  "checkbox"}/
+      Remember me
+  %button.btn.btn-default{:type => "submit"} Submit
