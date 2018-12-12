@@ -1,7 +1,5 @@
 # coding: utf-8
 
-require 'nutrients'
-
 module ApplicationHelper
 
   include Utility
@@ -72,9 +70,9 @@ module ApplicationHelper
 
   def piechartdata
     {
-      'Protein' => energy_from_protein,
-      'Fat' => energy_from_fat,
-      'Carbohydrate' => energy_from_carbohydrate
+      'Protein' => energy_from_protein(@foods),
+      'Fat' => energy_from_fat(@foods),
+      'Carbohydrate' => energy_from_carbohydrate(@foods)
     }
   end
 
@@ -91,29 +89,29 @@ module ApplicationHelper
     hash
   end
 
-  def energy_from_carbohydrate
-    energy_from_macro('cf', CALORIES_PER_GRAM_CARB, CHOCDF)
+  def energy_from_carbohydrate(foods)
+    energy_from_macro(foods, 'cf', CALORIES_PER_GRAM_CARB, CHOCDF)
   end
 
-  def energy_from_fat
-    energy_from_macro('ff', CALORIES_PER_GRAM_FAT, FAT)
+  def energy_from_fat(foods)
+    energy_from_macro(foods, 'ff', CALORIES_PER_GRAM_FAT, FAT)
   end
 
-  def energy_from_protein
-    energy_from_macro('pf', CALORIES_PER_GRAM_PROTEIN, PROCNT)
+  def energy_from_protein(foods)
+    energy_from_macro(foods, 'pf', CALORIES_PER_GRAM_PROTEIN, PROCNT)
   end
 
-  def energy_from_sat_fat
-    energy_from_macro('ff', CALORIES_PER_GRAM_FAT, FASAT)
+  def energy_from_sat_fat(foods)
+    energy_from_macro(foods, 'ff', CALORIES_PER_GRAM_FAT, FASAT)
   end
 
-  def energy_from_trans_fat
-    energy_from_macro('ff', CALORIES_PER_GRAM_FAT, FATRN)
+  def energy_from_trans_fat(foods )
+    energy_from_macro(foods, 'ff', CALORIES_PER_GRAM_FAT, FATRN)
   end
 
-  def energy_from_macro(tag, standard_conversion_factor, nutrient)
+  def energy_from_macro(foods, tag, standard_conversion_factor, nutrient)
     sum = 0
-    food_of_day.each do |f|
+    foods.each do |f|
       begin
         sum = sum + f.macro_energy(tag, standard_conversion_factor, nutrient)
       rescue TypeError => t
@@ -123,14 +121,14 @@ module ApplicationHelper
     sum
   end
 
-  def daily_helper(n)
-    sum = total_nutrient_amount(n)
-    sum= formatit(sum)
+  def daily_helper(n, foods)
+    sum = total_nutrient_amount(foods,  n)
+    formatit(sum)
   end
 
-  def total_nutrient_amount(n = nil)
+  def total_nutrient_amount(foods, n)
     sum = 0
-    food_of_day.each do |f |
+    foods.each do |f |
       if f.amount.class != String
         result = nutrient_per_serving(n,  f.ndbno, f.measure, f.amount)
         if result.class == Float
@@ -141,8 +139,8 @@ module ApplicationHelper
     sum.to_f
   end
 
-  def total_energy
-    total_nutrient_amount(Nutrients::ENERC_KCAL)
+  def total_energy(foods)
+    total_nutrient_amount(foods, Nutrients::ENERC_KCAL)
   end
 
   def caching_search(term)

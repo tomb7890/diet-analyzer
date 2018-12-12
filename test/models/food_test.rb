@@ -1,9 +1,12 @@
 require 'test_helper'
 
+
 include ApplicationHelper
 
 class FoodTest < ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
+
+  include Nutrients
   
   test 'exercising the name method ' do
     food = build(:soymilk)
@@ -36,9 +39,9 @@ class FoodTest < ActiveSupport::TestCase
 
   test 'computation of proportion of total fat energy in diet' do
     day = create(:day_with_food)
-    @foods = day.foods
-    ef = energy_from_fat
-    tt = total_energy
+    
+    ef = energy_from_fat(day.foods)
+    tt = total_energy(day.foods)
     expected = 13
     actual = (100 * ef / tt)
     assert_in_delta expected, actual, 1
@@ -70,10 +73,10 @@ class FoodTest < ActiveSupport::TestCase
 
   test 'nominal operation of dietary goals' do
     day = create(:day_with_food)
-    @foods = day.foods
-    goal_dietaryfat
-    goal_transfat
-    goal_satfat
+    
+    goal_dietaryfat(day.foods)
+    goal_transfat(day.foods)
+    goal_satfat(day.foods)
   end
 
   test 'computation of total fruit_and_veg' do

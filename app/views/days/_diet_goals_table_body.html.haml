@@ -1,23 +1,23 @@
 %tr
   %td= "Cholesterol: less than 300 mg"
-  %td= goal_cholesterol
+  %td= goal_cholesterol(@foods)
 %tr
   %td= "Dietary Fat: < 30% of calories"
-  %td= goal_dietaryfat
+  %td= goal_dietaryfat(@foods)
 %tr
   %td= "Saturated Fat: < 10% of calories"
-  %td= goal_satfat
+  %td= goal_satfat(@foods)
 
 %tr
   %td= "Trans Fat: 0% of calories"
-  %td= goal_transfat
+  %td= goal_transfat(@foods)
 %tr
   %td= "Dietary Fiber: >= 15g"
-  %td= goal_fiber
+  %td= goal_fiber(@foods)
 %tr
   %td= "Dietary Sodium: less than 2300mg"
-  %td= goal_sodium
+  %td= goal_sodium(@foods)
 
 %tr
   %td= "At least 400 g (5 portions) of fruits and vegetables a day (2). Potatoes, sweet potatoes, cassava and other starchy roots are not classified as fruits or vegetables."
-  %td= goal_fruit_and_veg
+  %td= goal_fruit_and_veg(@foods)

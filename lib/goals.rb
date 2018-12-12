@@ -38,8 +38,8 @@ module Goals
     food['name'] =~ /\braw\b/i
   end
 
-  def goal_fruit_and_veg
-    value = fruit_and_veg_goal(@foods)
+  def goal_fruit_and_veg(foods)
+    value = fruit_and_veg_goal(foods)
     "Fruit and veg goal: #{value}"
   end
 
@@ -51,12 +51,12 @@ module Goals
     end
   end
 
-  def goal_cholesterol
-    yes_no_helper(total_nutrient_amount(Nutrients::CHOLE).to_f < 300)
+  def goal_cholesterol(foods)
+    yes_no_helper(total_nutrient_amount(foods, Nutrients::CHOLE).to_f < 300)
   end
 
-  def goal_dietaryfat
-    yes_no_helper(goal_dietaryfat_helper(energy_from_fat, total_energy))
+  def goal_dietaryfat(foods)
+    yes_no_helper(goal_dietaryfat_helper(energy_from_fat(foods), total_energy(foods)))
   end
 
   def goal_dietaryfat_helper( energy_from_fat, total_energy )
@@ -70,8 +70,8 @@ module Goals
     success
   end
 
-  def goal_satfat
-    yes_no_helper(goal_satfat_helper(energy_from_sat_fat, total_energy))
+  def goal_satfat(foods)
+    yes_no_helper(goal_satfat_helper(energy_from_sat_fat(foods), total_energy(foods)))
   end
 
   def goal_satfat_helper(energy_from_sat_fat, total_energy)
@@ -85,8 +85,8 @@ module Goals
     success
   end
 
-  def goal_transfat
-    yes_no_helper(goal_transfat_helper( energy_from_trans_fat, total_energy))
+  def goal_transfat(foods)
+    yes_no_helper(goal_transfat_helper( energy_from_trans_fat(foods), total_energy(foods)))
   end
 
  def goal_transfat_helper( energy_from_trans_fat, total_energy )
@@ -97,11 +97,11 @@ module Goals
     success
   end
 
-  def goal_fiber
-    yes_no_helper(total_nutrient_amount(Nutrients::FIBTG) > 15)
+  def goal_fiber(foods)
+    yes_no_helper(total_nutrient_amount(foods, Nutrients::FIBTG) > 15)
   end
 
-  def goal_sodium
-    yes_no_helper(total_nutrient_amount(Nutrients::NA) < 2300)
+  def goal_sodium(foods)
+    yes_no_helper(total_nutrient_amount(foods, Nutrients::NA) < 2300)
   end
 end
