@@ -11,10 +11,9 @@
     %option{class: "form-control", :value => "Normal"} Normal 
     %option{class: "form-control", :value => "Pregnant"} Pregnant
     %option{class: "form-control", :value => "Lactating"} Lactating
-
 .form-group
-  = f.number_field :age, class: "form-control", min: 0
-  = f.label :age 
+  = f.label :dob
+  = f.date_select :dob, { start_year: 100.years.ago.year, end_year: Date.today.year, default: Date.today}
 
 .form-group
   = number_field_tag :feet_select, nil, class: "form-control", min: 1, max: 8 
