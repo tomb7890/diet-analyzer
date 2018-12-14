@@ -2,13 +2,22 @@ CM_PER_FOOT = 30.48
 CM_PER_INCH = 2.54 
 LB_PER_KG = 2.204
 
-$ ->
-    $(document).on('turbolinks:load', on_user_edit)
+GENDER_MALE = '<%= raw User::GENDER_MALE %>'
+GENDER_FEMALE = '<%= raw User::GENDER_FEMALE %>'
+GENDER_LACT = '<%= raw User::GENDER_LACT %>'
+GENDER_PREG = '<%= raw User::GENDER_PREG %>'
 
-on_user_edit = ->
+$ ->
+        $(document).on('turbolinks:load', main)
+
+main = ->
         pattern = /.*users\/(\d+)\/edit.*/
         url =($(location).attr('href'))
         results = (url.match(pattern))
+        if (results)
+                on_user_edit()
+
+on_user_edit = ->
         set_weightlb_from_weightkg()
         set_feet_lbs_from_heightcm()
         set_gender_data()
@@ -30,11 +39,17 @@ on_user_edit = ->
 
         $('#gender_male').on 'change', (evt) ->
                 disable_extra_female_options()
-                $('#user_gender').val("male")
+                $('#user_gender').val(GENDER_MALE)
                 
         $('#gender_female').on 'change', (evt) ->
                 enable_extra_female_options()
-                $('#user_gender').val("female") 
+                $('#user_gender').val(GENDER_FEMALE)
+
+        $('#gender_extra').on 'change', (evt) ->
+                $('#user_gender').val($('#gender_extra').val())
+
+        $('#activity_level').on 'change', (evt) ->
+                $('#activitylevel').val($('#activity_level').val())
 
 set_weightlb_from_weightkg = ->
         weightkg = $('#user_weightkg').val()
@@ -61,16 +76,20 @@ set_heightcm_from_feet_inches = ->
 
 set_gender_data = ->
         gender = $('#user_gender').val()
-        if gender == "male" 
+        if gender == GENDER_MALE 
                 $('#gender_male').prop('checked',true);
                 disable_extra_female_options()
-        else
+        else if gender == GENDER_FEMALE
+                $("#gender_female").prop('checked',true);
                 enable_extra_female_options()
-
+        else if gender == GENDER_PREG
+                $("#gender_extra").val(GENDER_PREG);
+        else if gender == GENDER_LACT
+                $("#gender_extra").val(GENDER_LACT);
+        
 disable_extra_female_options = -> 
-        $("#gender_extra").val("Normal");
+        $("#gender_extra").val(GENDER_FEMALE);
         $('#gender_extra').prop('disabled', 'disabled');
 
 enable_extra_female_options = ->
         $('#gender_extra').prop('disabled', false);
-                
