@@ -56,7 +56,7 @@ gem 'chartkick', '~> 2.3'
 gem 'haml'
 gem 'httparty'
 gem "econfig", require: "econfig/rails"
-gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap-sass', '~>  3.4.1'
 gem 'autoprefixer-rails'
 gem 'thor', '0.19.1'
 gem 'sorcery'
