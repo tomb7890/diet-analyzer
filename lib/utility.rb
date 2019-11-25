@@ -1,7 +1,12 @@
 module Utility
 
+  require 'pry'
+
   NOT_AVAILABLE = 'N/A'
 
+  # Called by application_helper for use in views. Floating point
+  # calculations are often done which would otherwise lead to an
+  # irregular user interface presentation.
   def formatit(input)
     value = input
     if input.class == Float
@@ -10,126 +15,99 @@ module Utility
     value
   end
 
-  def specific_food_factor(ndbno, json_tag)
-    factor = nil
-    response = Usda.caching_find(ndbno)
-    if response
-      x = response[json_tag]
-      if x
-        factor = x
-      end
-    end
-    factor
-  end
-
-  def calories_per_gram(ndbno, json_tag, standard_conversion_factor)
+  # Return the energy density in calories per gram for a
+  # food specified by its FDCID, or unique identifier.  Look
+  # for a custom conversion factor. If none is found it will fall back
+  # to the standard conversion factor.
+  def calories_per_gram(fdcid, macronutrient_type, standard_conversion_factor)
     factor = standard_conversion_factor
-    sff = specific_food_factor(ndbno, json_tag)
+    sff = specific_food_factor(fdcid, macronutrient_type)
     if sff !=nil && sff.to_f > 0.0
       factor = sff
     end
     factor
   end
 
-  def energy_density(ndbno)
+  # Food reports will sometimes have calorie conversion factors that
+  # relay how many calories per gram there are for the three different
+  # macronutrient types:  "proteinValue","fatValue", or "carbohydrateValue."
+  def specific_food_factor(fdcid, macronutrient_type)
+    factor = nil
+    response = Fdcapi.caching_find(fdcid)
+    if response && response.has_key?('nutrientConversionFactors')
+      calorieconversionfactor = response['nutrientConversionFactors'].detect{|x| x['type'] == '.CalorieConversionFactor' }
+      unless calorieconversionfactor.blank?
+        factor = calorieconversionfactor[macronutrient_type]
+      end
+    end
+    factor
+  end
+
+  # Return the energy density of a food in calories per pound. 
+  def energy_density(fdcid)
     pounds_per_kilogram = 2.205
     nutrient_name = Nutrients::ENERC_KCAL
     measure = 'g'
     q = '1.0'.to_f
-    value = nutrient_per_serving(nutrient_name, ndbno, measure, q)
+    value = nutrient_per_serving(nutrient_name, fdcid, measure, q)
     1000.0 * value.to_f / pounds_per_kilogram
   end
 
-  def gram_equivalent_with_specified_measure(ndbno, measure)
-    eqv = NOT_AVAILABLE
-    begin
-      food_report = Usda.caching_find(ndbno)
-      measure_object = measure_object_from_food_report(food_report, measure)
-      eqv = element_from_measure_object('eqv', measure_object)
-      eqv = eqv.to_f
-    rescue NoMethodError => e
-      Rails.logger.error "gram_equivalent_with_specified_measure ( #{ndbno}, #{measure}); #{e.class.name} : #{e.message}"
-    end
-    eqv
-  end
-
-  def gram_equivalent(ndbno, measure)
+  def gram_equivalent(fdcid, measure)
     if measure == 'g'
       eqv = 1.0
     else
-      eqv = gram_equivalent_with_specified_measure(ndbno, measure)
+      eqv = gram_equivalent_with_specified_measure(fdcid, measure)
     end
     eqv
   end
 
-  def nutrient_per_serving(nutrient_name, ndbno, measure_name, q)
+  def gram_equivalent_with_specified_measure(fdcid, measure)
+    eqv = NOT_AVAILABLE
+    begin
+      food_report = Fdcapi.caching_find(fdcid)
+      Fdcapi.weight(food_report, measure).nil? ? eqv = NOT_AVAILABLE  : eqv = Fdcapi.weight(food_report, measure)
+    rescue NoMethodError => e
+      Rails.logger.error "gram_equivalent_with_specified_measure ( #{fdcid}, #{measure}); #{e.class.name} : #{e.message}"
+    end
+    eqv
+  end
+
+  def nutrient_per_serving(nutrient_name, fdcid, measure_name, q)
     quantity = q.to_f
     value = NOT_AVAILABLE
     begin
-      food_report = Usda.caching_find(ndbno)
+      food_report = Fdcapi.caching_find(fdcid)
       value = nutrient_per_measure(food_report, measure_name, nutrient_name)
       value *= quantity
     rescue NoMethodError => e
-      Rails.logger.error "nutrient_per_serving(#{nutrient_name}, #{ndbno}, #{measure_name}); #{e.class.name} : #{e.message}"
+      Rails.logger.error "nutrient_per_serving(#{nutrient_name}, #{fdcid}, #{measure_name}); #{e.class.name} : #{e.message}"
     end
     value
-  end
-
-  def measure_object_from_food_report(food_report, measure)
-    allnutrients = food_report['nutrients']
-    a_nutrient = allnutrients.first
-    measure_object = measure_object_from_nutrient(a_nutrient, measure)
-    measure_object
   end
 
   def nutrient_per_measure(food_report, measure_name, nutrient_name)
     nutrient_object = fetch_nutrient_object(food_report, nutrient_name)
-    value = nutrient_value_from_nutrient_object(measure_name, nutrient_object)
+    value = nutrient_value_from_nutrient_object(food_report, measure_name, nutrient_object)
     value
   end
 
   def fetch_nutrient_object(food_report, nutrient_name)
-    allnutrients = food_report['nutrients']
-    allnutrients.select { |n| n['name'] == nutrient_name }[0]
+    allnutrients = food_report['foodNutrients']
+    selection = allnutrients.detect { |n| n['nutrient']['name'] == nutrient_name } 
  end
 
-  def nutrient_value_from_nutrient_object(measure_name, nutrient_object)
+  def nutrient_value_from_nutrient_object(food_report, measure_name, nutrient_object)
     value = 0
-    if measure_name == 'g'
-      value = handle_default_measure(nutrient_object)
-    else
-      value = handle_specified_measure(nutrient_object, measure_name)
+
+    grameequiveent = 1.0 
+    if measure_name != 'g'
+
+      # from food measure name, retrieve its weight of the food in grams. 
+      grameequiveent  = Fdcapi.weight(food_report, measure_name)
     end
-    value
+
+    Fdcapi.handle_default_measure(nutrient_object) * grameequiveent
   end
 
-  def measure_object_from_nutrient(nutrient_object, measure_name)
-    allmeasures = nutrient_object['measures']
-    measure_object = allmeasures.select { |m| m['label'] == measure_name }[0]
-    measure_object
-  end
-
-  def handle_specified_measure(nutrient_object, measure_name)
-    hash = measure_object_from_nutrient(nutrient_object, measure_name)
-    value = element_from_measure_object('value', hash)
-    value
-  end
-
-  def handle_default_measure(nutrient_object)
-    value = nutrient_object['value'].to_f
-    value / 100.0
-  end
-
-  def element_from_measure_object(element, measure_object)
-    if measure_object.key? element
-      x = measure_object[element].to_f
-      qty = measure_object['qty'].to_f
-      if qty
-        if qty > 0
-          x = x / qty
-        end
-      end
-    end
-    x
-  end
 end

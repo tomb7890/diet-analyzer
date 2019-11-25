@@ -2,7 +2,7 @@
 $ ->
     $(document).on 'change', '#food_type_id', (evt) ->
         $("#food_amount"). val("1.0")
-        $("#food_ndbno"). val($("#food_type_id option:selected").val() )
+        $("#food_fdcid"). val($("#food_type_id option:selected").val() )
 
         reset_nutrients()
 
@@ -10,7 +10,7 @@ $ ->
             type: 'GET'
             dataType: 'json'
             data: {
-                ndbno: $("#food_ndbno").val()
+                fdcid: $("#food_fdcid").val()
             }
             error: (jqXHR, textStatus, errorThrown) ->
                 console.log("AJAX Error: #{textStatus}")
@@ -28,7 +28,7 @@ on_food_edit = ->
             dataType: 'json'
             data: {
                 id: results[1]
-                ndbno: $("#food_ndbno").val()
+                fdcid: $("#food_fdcid").val()
                 amount: $("#food_amount").val()
             }
             error: (jqXHR, textStatus, errorThrown) ->
@@ -70,7 +70,7 @@ ajax_wrapper = ->
             type: 'GET'
             dataType: 'json'
             data: {
-                ndbno: $("#food_ndbno").val()
+                fdcid: $("#food_fdcid").val()
                 measure: $("#food_measure").val()
                 amount: $("#food_amount").val()
             }

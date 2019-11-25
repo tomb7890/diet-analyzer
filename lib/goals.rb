@@ -2,7 +2,7 @@ module Goals
 
   CALORIES_PER_GRAM_FAT=9.0
   CALORIES_PER_GRAM_CARB=4.0
-  CALORIES_PER_GRAM_PROTEIN=9.0
+  CALORIES_PER_GRAM_PROTEIN=4.0
 
   def fruit_and_veg_goal(collection)
     # At least 400 g (5 portions) of fruits and vegetables a day
@@ -21,21 +21,28 @@ module Goals
   def fresh_fruit_or_veg(database_item)
     amt = 0
     if food_is_a_fresh_vegtable_or_fruit(database_item)
-      amt = gram_equivalent(database_item.ndbno, database_item.measure) * database_item.amount
+      amt = gram_equivalent(database_item.fdcid, database_item.measure) * database_item.amount
     end
     amt
   end
 
   def food_is_a_fresh_vegtable_or_fruit(database_item)
+    x = false
     foodgroups = ['Vegetables and Vegetable Products',
       'Fruits and Fruit Juices']
-    food = Usda.caching_find(database_item.ndbno)
-    foodgroup = food['fg']
-    (foodgroups.include? foodgroup) && food_name_contains_raw(food)
+    food = Fdcapi.caching_find(database_item.fdcid)
+    if food.has_key? 'foodCategory'
+      cat = food['foodCategory']
+      if cat.has_key? 'description'
+        foodgroup = cat['description']
+        x= (foodgroups.include? foodgroup) && food_name_contains_raw(database_item)
+      end
+    end
+    x
   end
 
   def food_name_contains_raw(food)
-    food['name'] =~ /\braw\b/i
+    food.name =~ /\braw\b/i
   end
 
   def goal_fruit_and_veg(foods)

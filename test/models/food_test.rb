@@ -39,7 +39,6 @@ class FoodTest < ActiveSupport::TestCase
 
   test 'computation of proportion of total fat energy in diet' do
     day = create(:day_with_food)
-    
     ef = energy_from_fat(day.foods)
     tt = total_energy(day.foods)
     expected = 13
@@ -73,7 +72,6 @@ class FoodTest < ActiveSupport::TestCase
 
   test 'nominal operation of dietary goals' do
     day = create(:day_with_food)
-    
     goal_dietaryfat(day.foods)
     goal_transfat(day.foods)
     goal_satfat(day.foods)
@@ -83,7 +81,7 @@ class FoodTest < ActiveSupport::TestCase
     day = create(:day_with_food)
     @foods = day.foods
     amount = fruit_and_veg_goal(@foods)
-    assert_equal 148, amount
+    assert_equal 171, amount
   end
 
   test 'satfat goal when calories are zero' do

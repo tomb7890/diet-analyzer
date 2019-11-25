@@ -11,9 +11,9 @@ class Food < ActiveRecord::Base
 
   def nutrients_by_category(x)
     results = nil
-    response = Usda.caching_find(ndbno)
+    response = Fdcapi.caching_find(fdcid)
     if not response.nil?
-      nutrients = response['nutrients']
+      nutrients = response['foodNutrients']
       results = nutrients.select {|hash|hash['group'] == x }
     end
   end
@@ -31,20 +31,21 @@ class Food < ActiveRecord::Base
   end
 
   def macro_energy(tag, standard_conversion_factor, nutrient)
-    factor = calories_per_gram(ndbno, tag, standard_conversion_factor)
-    grams = nutrient_per_serving(nutrient,  ndbno, measure, amount)
+    factor = calories_per_gram(fdcid, tag, standard_conversion_factor)
+    grams = nutrient_per_serving(nutrient,  fdcid, measure, amount)
     factor * grams
   end
 
   def nutrient(nutrient_name)
-    nutrient_per_serving(nutrient_name, ndbno, measure, amount )
+    nutrient_per_serving(nutrient_name, fdcid, measure, amount )
   end
 
   def name
     name = nil
-    response = Usda.caching_find(ndbno)
+    # response = Usda.caching_find(fdcid)
+    response = Fdcapi.caching_find(fdcid)
     if not response.nil?
-      name = response['name']
+      name = response['description']
     end
     name
   end

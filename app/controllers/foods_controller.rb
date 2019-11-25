@@ -47,10 +47,10 @@ class FoodsController < ApplicationController
 
   def update_measures
     if params[:id]
-      @measures = measures_for_food(params[:ndbno])
+      @measures = measures_for_food(params[:fdcid])
 
       current_food = Food.find(params[:id])
-      @nutrients = nutrients_for_food_panel(current_food.ndbno,
+      @nutrients = nutrients_for_food_panel(current_food.fdcid,
                                             current_food.amount,
                                             current_food.measure,
                                            )
@@ -59,10 +59,10 @@ class FoodsController < ApplicationController
                                      selected_measure: current_food.measure }}
       end
     else # called upon change in food selection
-      ndbno = params[:ndbno]
-      @measures = measures_for_food(ndbno)
+      fdcid = params[:fdcid]
+      @measures = measures_for_food(fdcid)
       amount = 1.0
-      @nutrients = nutrients_for_food_panel(ndbno, amount)
+      @nutrients = nutrients_for_food_panel(fdcid, amount)
       respond_to do |format|
         format.json { render json: { measures: @measures, nutrients: @nutrients }}
       end
@@ -77,7 +77,8 @@ class FoodsController < ApplicationController
   end
 
   def update_nutrients
-    ndbno = params[:ndbno]
+    
+    fdcid = params[:fdcid]
     measure = params[:measure]
     amount = 1.0
 
@@ -85,7 +86,7 @@ class FoodsController < ApplicationController
       amount = params[:amount]
     end
 
-    @nutrients = nutrients_for_food_panel(ndbno, amount, measure)
+    @nutrients = nutrients_for_food_panel(fdcid, amount, measure)
     respond_to do |format|
       format.json { render json: { nutrients: @nutrients }}
     end
@@ -94,6 +95,6 @@ class FoodsController < ApplicationController
   private
 
   def food_params
-    params.require(:food).permit(:ndbno, :amount, :measure).merge(user_id: current_user.id)
+    params.require(:food).permit(:fdcid, :amount, :measure).merge(user_id: current_user.id)
   end
 end

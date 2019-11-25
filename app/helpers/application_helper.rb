@@ -61,9 +61,8 @@ module ApplicationHelper
     @foods
   end
 
-  def measures_for_food(ndbno)
-    response = Usda.caching_find(ndbno)
-    array = response['nutrients'].first['measures'].map { |x| x['label'] }
+  def measures_for_food(fdcid)
+    array = Fdcapi.measures(fdcid)
     array.insert(0, 'g') unless array.include?('g')
     array
   end
@@ -82,7 +81,7 @@ module ApplicationHelper
     food_of_day.each do | f |
       if f.name
         key = f.name.split(/\W/).first
-        value = energy_density(f.ndbno)
+        value = energy_density(f.fdcid)
         hash[key] =value
       end
     end
@@ -90,23 +89,23 @@ module ApplicationHelper
   end
 
   def energy_from_carbohydrate(foods)
-    energy_from_macro(foods, 'cf', CALORIES_PER_GRAM_CARB, CHOCDF)
+    energy_from_macro(foods, 'carbohydrateValue', CALORIES_PER_GRAM_CARB, CHOCDF)
   end
 
   def energy_from_fat(foods)
-    energy_from_macro(foods, 'ff', CALORIES_PER_GRAM_FAT, FAT)
+    energy_from_macro(foods, 'fatValue', CALORIES_PER_GRAM_FAT, FAT)
   end
 
   def energy_from_protein(foods)
-    energy_from_macro(foods, 'pf', CALORIES_PER_GRAM_PROTEIN, PROCNT)
+    energy_from_macro(foods, 'proteinValue', CALORIES_PER_GRAM_PROTEIN, PROCNT)
   end
 
   def energy_from_sat_fat(foods)
-    energy_from_macro(foods, 'ff', CALORIES_PER_GRAM_FAT, FASAT)
+    energy_from_macro(foods, 'fatValue', CALORIES_PER_GRAM_FAT, FASAT)
   end
 
   def energy_from_trans_fat(foods )
-    energy_from_macro(foods, 'ff', CALORIES_PER_GRAM_FAT, FATRN)
+    energy_from_macro(foods, 'fatValue', CALORIES_PER_GRAM_FAT, FATRN)
   end
 
   def energy_from_macro(foods, tag, standard_conversion_factor, nutrient)
@@ -130,7 +129,7 @@ module ApplicationHelper
     sum = 0
     foods.each do |f |
       if f.amount.class != String
-        result = nutrient_per_serving(n,  f.ndbno, f.measure, f.amount)
+        result = nutrient_per_serving(n,  f.fdcid, f.measure, f.amount)
         if result.class == Float
           sum += result
         end
@@ -146,25 +145,25 @@ module ApplicationHelper
   def caching_search(term)
     unless term.blank?
       Rails.cache.fetch(term, expires_in: 28.days) do
-        response = Usda.search(term)
+        response = Fdcapi.search(term)
       end
     end
   end
 
-  def nutrients_for_food_panel(ndbno, quantity, measure = 'g')
+  def nutrients_for_food_panel(fdcid, quantity, measure = 'g')
     hash = {}
 
     hash['Energy'] = nutrient_per_serving(Nutrients::ENERC_KCAL,
-                                          ndbno, measure, quantity)
+                                          fdcid, measure, quantity)
     hash['Water'] = nutrient_per_serving(Nutrients::WATER,
-                                         ndbno, measure, quantity)
+                                         fdcid, measure, quantity)
     hash['Carbs'] = nutrient_per_serving(Nutrients::CHOCDF,
-                                         ndbno, measure, quantity)
-    hash['Fiber'] = nutrient_per_serving(Nutrients::FIBTG, ndbno,
+                                         fdcid, measure, quantity)
+    hash['Fiber'] = nutrient_per_serving(Nutrients::FIBTG, fdcid,
                                          measure, quantity)
-    hash['Protein'] = nutrient_per_serving(Nutrients::PROCNT, ndbno,
+    hash['Protein'] = nutrient_per_serving(Nutrients::PROCNT, fdcid,
                                            measure, quantity)
-    hash['Fat'] =   nutrient_per_serving(Nutrients::FAT, ndbno,
+    hash['Fat'] =   nutrient_per_serving(Nutrients::FAT, fdcid,
                                          measure, quantity)
     hash = format_hash_values(hash)
   end
@@ -181,10 +180,10 @@ module ApplicationHelper
     array = []
     if hashes
       hashes.each do |h|
-        if h.class == Hash && h.key?('name') && h.key?('ndbno')
+        if h.class == Hash && h.key?('description') && h.key?('fdcId')
           array_element = []
-          array_element << h['name']
-          array_element << h['ndbno']
+          array_element << h['description']
+          array_element << h['fdcId']
           array << array_element
         end
       end

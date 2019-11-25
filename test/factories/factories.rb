@@ -13,25 +13,26 @@ FactoryBot.define do
   end
 
   factory :soymilk, class: Food do
-    ndbno { 16_235 }
+     fdcid { 175218 }
     amount { 1 }
     measure { 'cup' }
   end
 
+
   factory :raisinbran, class: Food do
-    ndbno { 8061 }
+    fdcid { 171650 } # Cereals ready-to-eat, POST Raisin Bran Cereal (SR legacy)
     amount { 1 }
     measure { 'cup (1 NLEA serving)' }
   end
 
   factory :blueberries, class: Food do
-    ndbno { 9050 }
+    fdcid { 171711 }
     amount { 1 }
     measure { 'cup' }
   end
 
   factory :fireweed, class: Food do
-    ndbno { 35_038 }
+    fdcid {  169399 }
     amount { 1 }
     measure { 'cup, chopped' }
   end
