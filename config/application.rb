@@ -33,3 +33,4 @@ module DietAnalyzer
     config.logger = Logger.new(STDOUT)
   end
 end
+Figaro.require_keys("USDA_FDC_API_KEY")
