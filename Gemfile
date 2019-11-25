@@ -55,7 +55,7 @@ end
 
 
 
-gem 'chartkick', '~> 2.3' 
+gem 'chartkick', '~> 3.2' 
 gem 'haml'
 gem 'httparty'
 gem "econfig", require: "econfig/rails"
