@@ -18,30 +18,21 @@ on_turbolinks_load = ->
 show_pie_chart = ->
     ctx = document.getElementById('macros-piechart').getContext('2d')
 
-    fetchvalues = -> 
-        chartdata = $('#macros-piechart').attr('data-piechart')
-        hashx = JSON.parse(chartdata)
-        mylabels = new Array
-        for key of hashx
-            mylabels.push key
-        mylabels
-
-    fetchdata = ->
-        chartdata = $('#macros-piechart').attr('data-piechart')
-        hashx = JSON.parse(chartdata)
-        mydatavals = new Array
-        for key of hashx
-            mydatavals.push hashx[key]
-        mydatavals
+    hashx = JSON.parse($('#macros-piechart').attr('data-piechart'))
+    data = new Array
+    labels = new Array
+    for key of hashx
+        labels.push key
+        data.push hashx[key]
         
     config =
         type: 'pie'
         data:
             datasets: [{
-                data: fetchdata()
+                data: data 
                 backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
                 }]
-        labels: fetchvalues()
+        labels: labels
 
     myPieChart = new Chart(ctx,config) 
 
