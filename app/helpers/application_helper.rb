@@ -80,7 +80,7 @@ module ApplicationHelper
 
     food_of_day.each do | f |
       if f.name
-        key = f.name.split(/\W/).first
+        key = f.name
         value = energy_density(f.fdcid)
         hash[key] =value
       end
