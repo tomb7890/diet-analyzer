@@ -17,7 +17,6 @@ on_turbolinks_load = ->
 
 show_pie_chart = ->
     ctx = document.getElementById('macros-piechart').getContext('2d')
-
     hashx = JSON.parse($('#macros-piechart').attr('data-piechart'))
     data = new Array
     labels = new Array
@@ -32,7 +31,8 @@ show_pie_chart = ->
                 data: data 
                 backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
                 }]
-        labels: labels
+            labels: labels
+        options: tooltips: callbacks: label: format_pie_chart
 
     myPieChart = new Chart(ctx,config) 
 
@@ -61,12 +61,24 @@ show_bar_chart = ->
         type: 'horizontalBar'
         data: horizontalBarChartData
         labels: l1
+        options: tooltips: callbacks: label: format_bar_chart
         elements:
             rectangle:
                 borderWidth: 2 
 
     myPieChart = new Chart(ctx,config) 
 
+
+formatdata = (tooltipItem, data ) -> 
+    Math.round(data.datasets[0].data[tooltipItem.index])
+    
+format_pie_chart = (tooltipItem, data ) ->
+    x = formatdata(tooltipItem, data )
+    "Calories from " + data.labels[tooltipItem.index] + " : " + x.toString()
+    
+format_bar_chart = (tooltipItem, data ) ->
+    x = formatdata(tooltipItem, data ) 
+    x.toString() + " calories per pound "
 
  
     
