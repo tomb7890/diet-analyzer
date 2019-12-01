@@ -54,8 +54,6 @@ group :development do
 end
 
 
-
-gem 'chartkick', '~> 2.3' 
 gem 'haml'
 gem 'httparty'
 gem "econfig", require: "econfig/rails"
