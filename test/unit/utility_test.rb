@@ -192,10 +192,10 @@ class UtilityTest < ActiveSupport::TestCase
   end
 
   test 'first test of a survey food' do
-    # Duck, roasted, skin eaten
-    duck_fdcid = 337401
-    measure = '1/2 breast (yield after cooking, bone removed)'
-    expected = 120
+    # "Duck roasted skin eaten "
+    duck_fdcid = 782288
+    measure = "1 leg (drumstick and thigh) (yield after cooking, bone removed)"
+    expected = 90 
     actual = gram_equivalent(duck_fdcid, measure)
     assert_equal expected, actual
   end
