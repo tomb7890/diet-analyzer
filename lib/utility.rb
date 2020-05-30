@@ -1,7 +1,5 @@
 module Utility
 
-  require 'pry'
-
   NOT_AVAILABLE = 'N/A'
 
   # Called by application_helper for use in views. Floating point
