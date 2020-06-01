@@ -51,6 +51,7 @@ show_bar_chart = ->
     horizontalBarChartData = 
         labels: l1
         datasets: [{
+            label: "Energy Density (calories/pound)"
             backgroundColor: "rgba(255, 99, 132, 0.2)"
             borderColor: "rgb(255, 99, 132)" 
             borderWidth: 1
