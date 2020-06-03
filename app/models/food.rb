@@ -42,7 +42,6 @@ class Food < ActiveRecord::Base
 
   def name
     name = nil
-    # response = Usda.caching_find(fdcid)
     response = Fdcapi.caching_find(fdcid)
     if not response.nil?
       name = response['description']
