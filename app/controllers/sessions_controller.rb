@@ -5,6 +5,10 @@ class SessionsController < ApplicationController
   def new
   end
 
+  def index
+    redirect_to login_url
+  end
+
   def create
     user = login(params[:email], params[:password], params[:remember_me])
     if user
