@@ -1,6 +1,7 @@
 - if @user.errors.any?
   .error_messages
-    %h2 Form is invalid
+    %h3 Form submission error:
     %ul
       - for message in @user.errors.full_messages
-        %li= message
+        = content_tag :div, message, :id => "form__error", :class=> "alert alert-danger", :role => 'alert'
+       
