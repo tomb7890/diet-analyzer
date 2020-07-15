@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :foods
   end
 
+  get '/days/:day_id/nutrients/:id' => 'nutrients#show'
 
   get '/update_measures' => 'foods#update_measures'
   get '/update_nutrients' => 'foods#update_nutrients'

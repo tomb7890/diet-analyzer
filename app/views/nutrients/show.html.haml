@@ -1,0 +1,12 @@
+%table{:class => "table table-condensed" }
+  %thead
+    %tr
+      %th  Nutrient
+      %th  Amount
+      %th  Unit
+  %tbody
+    - tab_pane_nutrients(@category).each do |v|
+      %tr
+        %td=v[0]
+        %td=daily_helper(v[0], @foods)
+        %td=v[1]
