@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
 
   GENDER_MALE = 'male'
   GENDER_FEMALE = 'female'
