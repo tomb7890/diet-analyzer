@@ -9,4 +9,7 @@ script:
 - bundle exec rake db:migrate 
 - bundle exec rake test 
 
+before_install:
+  - nvm install 15 
+
 
