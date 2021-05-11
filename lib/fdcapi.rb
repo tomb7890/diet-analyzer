@@ -28,7 +28,7 @@ class Fdcapi
                    headers: {"Content-Type" => "application/json" }
                   )
 
-    unless response.nil?
+    unless response.body.nil? || response.body.empty?
       food = response
     end
   end

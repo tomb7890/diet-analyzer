@@ -43,7 +43,7 @@ class Food < ApplicationRecord
   def name
     name = nil
     response = Fdcapi.caching_find(fdcid)
-    if not response.nil?
+    if not response.body.nil? || response.body.empty?
       name = response['description']
     end
     name
