@@ -186,7 +186,7 @@ class UtilityTest < ActiveSupport::TestCase
     # Chicken, broilers or fryers, drumstick, meat only, cooked, braised 
     chicken_fdcid  = 331897
     measure = 'drumstick'
-    expected = 94.7 
+    expected = 104.0
     actual = gram_equivalent(chicken_fdcid, measure)
     assert_equal expected, actual
   end
