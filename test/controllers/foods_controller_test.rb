@@ -1,7 +1,21 @@
 require 'test_helper'
 
 class FoodsControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  include FactoryBot::Syntax::Methods
+
+  setup do
+    @bob = user_with_days
+    login_user(@bob)
+  end
+
+  test "should create a list of matching foods returning from API call" do
+    get :new,
+        params: {"utf8"=>"✓",
+                 "search"=>"clam chowder new england prepared",
+                 "commit"=>"Submit",
+                 "day_id"=>@bob.days.first.id},
+        session: { user_id: @bob }
+
+    assert_response :success
+  end
 end

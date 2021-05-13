@@ -36,4 +36,15 @@ FactoryBot.define do
     amount { 1 }
     measure { 'cup, chopped' }
   end
+
+  factory :user do
+    email                 {"shmoe@example.com"}
+    password              {"secret"}
+  end
+end
+
+def user_with_days(days_count: 1)
+  FactoryBot.create(:user) do |user|
+    FactoryBot.create_list(:day, days_count, user: user)
+  end
 end
