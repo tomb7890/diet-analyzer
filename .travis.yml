@@ -2,14 +2,12 @@ language: ruby
 
 services:
  - postgresql
-  
-script: 
+
+script:
 - export RAILS_ENV=test
 - bundle exec rake db:create db:schema:load db:test:prepare
-- bundle exec rake db:migrate 
-- bundle exec rake test 
+- bundle exec rake db:migrate
+- bundle exec rake test
 
 before_install:
-  - nvm install 15 
-
-
+  - nvm install 15
