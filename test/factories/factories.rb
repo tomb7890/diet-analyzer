@@ -1,7 +1,13 @@
 FactoryBot.define do
-  factory :day do
-    date { '2017-05-10' }
 
+  factory :user do
+    email                 {"shmoe@example.com"}
+    password              {"secret"}
+  end
+
+  factory :day do
+    user
+    date { '2017-05-10' }
     factory :day_with_food do
       after(:create) do |day|
         create(:blueberries, day: day)
@@ -17,7 +23,6 @@ FactoryBot.define do
     amount { 1 }
     measure { 'cup' }
   end
-
 
   factory :raisinbran, class: Food do
     fdcid { 171650 } # Cereals ready-to-eat, POST Raisin Bran Cereal (SR legacy)
@@ -35,11 +40,6 @@ FactoryBot.define do
     fdcid {  169399 }
     amount { 1 }
     measure { 'cup, chopped' }
-  end
-
-  factory :user do
-    email                 {"shmoe@example.com"}
-    password              {"secret"}
   end
 end
 
