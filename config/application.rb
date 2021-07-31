@@ -16,9 +16,6 @@ module DietAnalyzer
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    config.autoload_paths += %W(#{config.root}/lib)
-
-
     config.action_controller.per_form_csrf_tokens = true
     config.action_controller.forgery_protection_origin_check = true
     config.ssl_options = { hsts: { subdomains: true } }
