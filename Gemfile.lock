@@ -112,7 +112,7 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.6)
     jwt (2.2.3)
-    listen (3.5.1)
+    listen (3.6.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.10.0)
@@ -144,12 +144,12 @@ GEM
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
     pg (0.20.0)
-    pry (0.14.1)
+    pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.8.0)
+    pry-byebug (3.9.0)
       byebug (~> 11.0)
-      pry (~> 0.10)
+      pry (~> 0.13.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -255,8 +255,8 @@ DEPENDENCIES
   jquery-rails
   listen
   pg (~> 0.20.0)
-  pry
-  pry-byebug
+  pry (= 0.13.1)
+  pry-byebug (= 3.9.0)
   rails (= 5.2.6)
   rails_12factor
   sass-rails (~> 5.0)
