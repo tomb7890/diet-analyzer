@@ -52,6 +52,8 @@ group :development do
   gem 'spring'
   gem 'pry', ' = 0.13.1'
   gem 'pry-byebug', ' = 3.9.0'
+  gem 'better_errors'
+  gem 'binding_of_caller', '~> 1.0' 
 end
 
 
