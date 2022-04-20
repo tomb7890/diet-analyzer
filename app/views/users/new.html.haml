@@ -1,4 +1,16 @@
-= form_for @user do |f|
+=  form_for ([@user]),  {:html => {:class => "form-signup new_user"}}  do |f|
+
+  %h2.form-signup-heading Please sign up
   = render partial: 'formerrors'
-  = render :partial => 'authent', locals: { f: f, user: @user }, object: @user 
-  .actions= f.submit "Submit", { class: 'btn btn-default' } 
+  
+  = f.label :email, class: 'sr-only'
+  = f.text_field :email, class: 'form-control', placeholder: "Email" , type: "email"
+
+  = f.label :password, class: 'sr-only'
+  = f.password_field :password, class: "form-control", placeholder: "Password" 
+
+  = f.label :password_confirmation, class: 'sr-only'
+  = f.password_field :password_confirmation, class: "form-control passsword-confirmation", placeholder: "Password Confirmation" 
+
+
+  .actions= f.submit "Submit", { class: 'btn btn-lg btn-primary btn-block' } 

@@ -1,13 +1,21 @@
-= form_tag sessions_path do
+= form_tag sessions_path, :class => "form-signin", :method => :post do
 
-  .form-group
-    %label{for: "email", name: "email"} Email address:
-    %input#email.form-control{type:  "email", name: "email"}
-  .form-group
-    %label{:for => "pwd"} Password:
-    %input#pwd.form-control{name:'password', type: "password" }
+  %h2.form-signin-heading Please sign in
+  %label.sr-only{:for => "inputEmail", name: "email"} Email address
+  %input#inputEmail.form-control{:autofocus => "",
+                                 :placeholder => "Email address",
+                                 :required => "",
+                                 :type => "email", name: "email"}/
+
+  
+  %label.sr-only{:for => "inputPassword"} Password
+  %input#inputPassword.form-control{name: 'password',
+                                    :placeholder => "Password",
+                                    :required => "", :type => "password"}/
+    
   .checkbox
     %label
-      %input{name: "remember_me", type:  "checkbox"}/
+      %input{:type => "checkbox", :value => "remember-me"}/
       Remember me
-  %button.btn.btn-default{:type => "submit"} Submit
+  %button.btn.btn-lg.btn-primary.btn-block{:type => "submit"} Sign in
+
