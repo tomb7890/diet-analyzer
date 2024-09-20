@@ -26,7 +26,8 @@
                 %a{:href => about_path} About Diet-Analyzer
                 %li.divider
               %li
-                %a{:href => logout_path } Log out
+                = link_to "Log Out", destroy_user_session_path, data: { method: :delete }
+
 
         - else
           %li.dropdown
@@ -35,11 +36,11 @@
               %b.caret
             %ul.dropdown-menu
               %li
-                %a{:href => signup_path}
+                %a{:href => new_user_registration_path}
                   %span.glyphicon.glyphicon-user
                   Sign Up
               %li
-                %a{:href => login_path}
+                %a{:href => new_user_session_path}
                   %span.glyphicon.glyphicon-log-in
                   Login
               %li

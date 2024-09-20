@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 
   GENDER_MALE = 'male'
   GENDER_FEMALE = 'female'
@@ -9,7 +13,6 @@ class User < ApplicationRecord
   has_many :days, dependent: :destroy
   has_many :foods, through: :days
 
-  authenticates_with_sorcery!
 
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create

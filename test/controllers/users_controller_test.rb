@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
+  
   test "get new" do
     get :new
     assert_response :success

@@ -24,13 +24,22 @@ class Fdcapi
   # Food Details endpoint returns details on a particular food. 
   def self.find(fdcid)
     food = nil
-    response = get("/fdc/v1/#{fdcid}" , 
+    response = get("/fdc/v1/#{fdcid.to_s}" , 
                    headers: {"Content-Type" => "application/json" }
                   )
 
-    unless response.body.nil? || response.body.empty?
-      food = response
+    case response.code
+    when 200
+      unless response.body.nil? || response.body.empty?
+        food = response
+      end
+    when 404
+      Rails.logger.error "USDA API lookup failure: ( response code #{response.code} for food #{fdcid } )."
+    when 500...600
+      Rails.logger.error "USDA API lookup failure: ( response code #{response.code} for food #{fdcid } )."
     end
+
+    food
   end
 
   # A caching version of the above. Government data on food and

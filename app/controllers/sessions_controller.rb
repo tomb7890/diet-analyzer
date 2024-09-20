@@ -1,9 +1,6 @@
 class SessionsController < ApplicationController
 
-  skip_before_action :require_login, except: [:destroy]
-
-  def new
-  end
+  skip_before_action :authenticate_user!, except: [:destroy]
 
   def index
     redirect_to login_url

@@ -2,10 +2,11 @@ require 'test_helper'
 
 class FoodsControllerTest < ActionController::TestCase
   include FactoryBot::Syntax::Methods
+  include Devise::Test::ControllerHelpers
 
   setup do
     @bob = user_with_days
-    login_user(@bob)
+    sign_in @bob
   end
 
   test "should create a list of matching foods returning from API call" do

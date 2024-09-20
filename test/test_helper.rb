@@ -3,7 +3,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
 class ActionController::TestCase
-  include Sorcery::TestHelpers::Rails::Controller
+
 end
 
 class ActiveSupport::TestCase

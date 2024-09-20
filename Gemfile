@@ -3,14 +3,15 @@ source 'https://rubygems.org'
 ruby "3.3.5"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', ' = 5.2.7'
-gem 'pg', '~> 0.20.0'
+gem 'rails', '6.1.7.8'
+
+gem 'pg', '~> 1.5'
 
 # Support heroku
 gem 'rails_12factor'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -50,8 +51,8 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'pry', ' = 0.13.1'
-  gem 'pry-byebug', ' = 3.9.0'
+
+  # gem 'pry-byebug', ' = 3.9.0'
   gem 'better_errors'
   gem 'binding_of_caller', '~> 1.0' 
 end
@@ -59,11 +60,11 @@ end
 
 gem 'haml'
 gem 'httparty'
-gem "econfig", require: "econfig/rails"
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
-gem 'thor', '0.19.1'
-gem 'sorcery'
+gem 'thor'
+gem 'devise'
 gem 'figaro'
 gem 'bootsnap'
 gem 'listen'
+gem 'dotenv-rails'

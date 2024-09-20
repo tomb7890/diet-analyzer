@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+
+  devise_for :users
   root to: 'days#index'
 
   resources :days do
@@ -14,12 +16,9 @@ Rails.application.routes.draw do
 
   get '/about' => 'static_pages#about'
 
-  get 'logout' => 'sessions#destroy'
-  get 'login' => 'sessions#new'
-  get 'signup' => 'users#new'
 
   resources :users
-  resources :sessions
+  # resources :sessions
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
