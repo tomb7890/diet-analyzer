@@ -27,7 +27,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', group: :doc
-
+gem 'puma'
 
 
 # Use ActiveModel has_secure_password
